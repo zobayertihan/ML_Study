@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Exam Study Guide 2026</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --secondary: #16213e;
+    --accent: #0f3460;
+    --highlight: #e94560;
+    --gold: #f5a623;
+    --green: #27ae60;
+    --text: #eaeaea;
+    --text-muted: #a0a0b0;
+    --card-bg: #1e2a45;
+    --card-border: #2d4070;
+    --reveal-bg: #0d1b33;
+    --tag-bg: #0f3460;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--primary);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--highlight);
+  }
+  header h1 { font-size: 2rem; font-weight: 800; color: #fff; }
+  header p { color: var(--text-muted); margin-top: .4rem; font-size: .95rem; }
+  nav {
+    background: var(--secondary);
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 2px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 1rem 1.8rem;
+    font-weight: 600;
+    font-size: .9rem;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--highlight);
+    border-bottom-color: var(--highlight);
+    background: rgba(233,69,96,.07);
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  section { display: none; }
+  section.active { display: block; }
+  h2.section-title {
+    font-size: 1.5rem;
+    color: var(--highlight);
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--card-border);
+  }
+  .section-desc { color: var(--text-muted); margin-bottom: 1.5rem; font-size: .9rem; }
+
+  /* ── Q&A Cards ── */
+  .qa-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .qa-card:hover { box-shadow: 0 4px 20px rgba(233,69,96,.15); }
+  .qa-header {
+    padding: 1rem 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    user-select: none;
+  }
+  .qa-number {
+    background: var(--highlight);
+    color: #fff;
+    font-weight: 800;
+    font-size: .8rem;
+    border-radius: 6px;
+    padding: .2rem .55rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+  .qa-question { font-weight: 600; font-size: 1rem; flex: 1; line-height: 1.5; }
+  .qa-toggle {
+    font-size: 1.3rem;
+    color: var(--highlight);
+    flex-shrink: 0;
+    transition: transform .3s;
+  }
+  .qa-card.open .qa-toggle { transform: rotate(180deg); }
+  .qa-body {
+    display: none;
+    padding: 0 1.3rem 1.2rem 1.3rem;
+    border-top: 1px solid var(--card-border);
+    background: var(--reveal-bg);
+  }
+  .qa-card.open .qa-body { display: block; }
+  .qa-body h4 {
+    color: var(--gold);
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin: 1rem 0 .4rem;
+  }
+  .qa-body p { color: var(--text); line-height: 1.7; font-size: .93rem; margin-bottom: .5rem; }
+  .qa-body ul { padding-left: 1.3rem; margin-bottom: .5rem; }
+  .qa-body ul li { color: var(--text); line-height: 1.7; font-size: .93rem; margin-bottom: .2rem; }
+  .qa-body code {
+    background: #0a1628;
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    padding: .1rem .4rem;
+    font-family: 'Consolas', monospace;
+    font-size: .85rem;
+    color: #7ec8e3;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--text-muted);
+    font-size: .72rem;
+    border-radius: 4px;
+    padding: .15rem .5rem;
+    margin-right: .3rem;
+    margin-bottom: .5rem;
+  }
+  .tag.green { background: rgba(39,174,96,.18); color: #27ae60; }
+  .tag.gold { background: rgba(245,166,35,.15); color: var(--gold); }
+
+  /* ── Related Questions ── */
+  .related-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+  }
+  .related-header {
+    padding: .9rem 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    user-select: none;
+  }
+  .related-label {
+    font-size: .72rem;
+    font-weight: 700;
+    background: rgba(245,166,35,.18);
+    color: var(--gold);
+    border-radius: 4px;
+    padding: .15rem .5rem;
+    flex-shrink: 0;
+  }
+  .related-q { font-weight: 600; font-size: .95rem; flex: 1; line-height: 1.5; }
+  .related-toggle { color: var(--gold); flex-shrink: 0; transition: transform .3s; }
+  .related-card.open .related-toggle { transform: rotate(180deg); }
+  .related-body {
+    display: none;
+    padding: .8rem 1.2rem 1rem;
+    border-top: 1px solid var(--card-border);
+    background: var(--reveal-bg);
+  }
+  .related-card.open .related-body { display: block; }
+  .related-body p { color: var(--text); line-height: 1.7; font-size: .92rem; margin-bottom: .5rem; }
+  .related-body ul { padding-left: 1.3rem; }
+  .related-body ul li { color: var(--text); line-height: 1.7; font-size: .92rem; margin-bottom: .25rem; }
+  .related-body code { background: #0a1628; border: 1px solid var(--card-border); border-radius: 4px; padding: .1rem .4rem; font-family: 'Consolas', monospace; font-size: .84rem; color: #7ec8e3; }
+  .topic-header {
+    color: var(--highlight);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1.8rem 0 .7rem;
+    padding-left: .6rem;
+    border-left: 3px solid var(--highlight);
+  }
+
+  /* ── Flashcards ── */
+  .flashcard-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .fc-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: .6rem 1.3rem;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .fc-btn:hover { background: var(--highlight); }
+  .fc-btn:disabled { opacity: .35; cursor: default; background: var(--accent); }
+  .fc-counter { color: var(--text-muted); font-size: .9rem; min-width: 60px; text-align: center; }
+  .flashcard-scene {
+    perspective: 1200px;
+    width: 100%;
+    max-width: 680px;
+    height: 280px;
+    margin: 0 auto 1.5rem;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+  }
+  .flashcard-scene.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  .flashcard-front {
+    background: linear-gradient(135deg, var(--accent) 0%, #1a3a6e 100%);
+    border: 2px solid var(--card-border);
+  }
+  .flashcard-back {
+    background: linear-gradient(135deg, #0d2b1a 0%, #1a3a2e 100%);
+    border: 2px solid rgba(39,174,96,.4);
+    transform: rotateY(180deg);
+  }
+  .fc-label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .7rem;
+    opacity: .7;
+  }
+  .flashcard-front .fc-label { color: #7ec8e3; }
+  .flashcard-back .fc-label { color: #5ddb8a; }
+  .fc-question { font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.5; }
+  .fc-answer { font-size: .9rem; color: #c8f0d8; line-height: 1.6; }
+  .fc-hint { font-size: .75rem; color: var(--text-muted); margin-top: 1rem; }
+  .fc-progress {
+    display: flex;
+    justify-content: center;
+    gap: .35rem;
+    flex-wrap: wrap;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .fc-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--card-border);
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .fc-dot.current { background: var(--highlight); }
+  .fc-dot.visited { background: var(--green); }
+
+  @media(max-width:600px){
+    header h1{font-size:1.4rem;}
+    nav a{padding:.8rem .9rem;font-size:.8rem;}
+    .flashcard-scene{height:320px;}
+    .fc-question{font-size:.97rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ML Exam Study Guide — 2026</h1>
+  <p>Nutrition Advisor Project &nbsp;|&nbsp; Machine Learning Curriculum &nbsp;|&nbsp; Based on course materials</p>
+</header>
+
+<nav>
+  <a href="#" class="active" onclick="showSection('exam',this)">📚 Exam Q&amp;A</a>
+  <a href="#" onclick="showSection('related',this)">🔗 Related Questions</a>
+  <a href="#" onclick="showSection('oral',this)">🃏 Oral Flashcards</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1 — EXAM Q&A
+═══════════════════════════════════════════════════════════════ -->
+<section id="exam" class="active">
+  <h2 class="section-title">Section 1 — Exam Questions &amp; Answers</h2>
+  <p class="section-desc">Click any question to reveal the model answer. Based on the 2026 exam and course lecture materials.</p>
+
+  <!-- Q1 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q1</span>
+      <span class="qa-question">General Machine Learning: challenges, overfitting, and hyperparameter tuning pitfalls.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">General ML</span><span class="tag">Lecture 1–3</span>
+      <h4>a) Main challenges in machine learning</h4>
+      <ul>
+        <li><strong>Insufficient training data</strong> – most algorithms need thousands of examples to work well.</li>
+        <li><strong>Non-representative training data</strong> – sampling bias means the training set doesn't reflect the real distribution (e.g., only data from one region).</li>
+        <li><strong>Poor-quality data</strong> – outliers, errors, and noise cause the model to learn wrong patterns.</li>
+        <li><strong>Irrelevant features</strong> – "garbage in, garbage out"; feature engineering (selection/extraction) is critical.</li>
+        <li><strong>Overfitting</strong> – model memorises training data, fails on new instances (high variance).</li>
+        <li><strong>Underfitting</strong> – model too simple to capture underlying structure (high bias).</li>
+        <li><strong>No Free Lunch theorem</strong> – no single algorithm always wins; choice depends on the problem.</li>
+      </ul>
+      <h4>b) Model performs perfectly on training but badly on new data — overfitting</h4>
+      <p>This is called <strong>overfitting</strong>. The model has memorised training examples rather than learning the general relationship.</p>
+      <p><strong>Solutions:</strong></p>
+      <ul>
+        <li>Regularisation (Ridge/Lasso/Elastic Net) — penalise large weights.</li>
+        <li>Gather more training data.</li>
+        <li>Reduce noise in the dataset.</li>
+        <li>Simplify the model (fewer parameters, shallower tree, fewer layers).</li>
+        <li>Cross-validation to detect overfitting early.</li>
+        <li>Dropout (neural networks) — randomly deactivate neurons during training.</li>
+        <li>Early stopping — halt training when validation loss starts increasing.</li>
+      </ul>
+      <h4>c) What can go wrong when tuning hyperparameters on the test set?</h4>
+      <p>Repeatedly optimising hyperparameters against the test set causes <strong>data leakage</strong>: the test set effectively becomes part of training. The model is then tuned to the specific quirks of that test set rather than the true data distribution. Reported performance will be over-optimistic and will not reflect real-world generalisation.</p>
+      <p><strong>Solution:</strong> Use a separate <em>validation set</em> (or k-fold cross-validation) for hyperparameter search; keep the test set completely held-out as a final unbiased evaluation.</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q2</span>
+      <span class="qa-question">Performance measurements: regression metrics, confusion matrix, and AUC-ROC curve.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Performance Metrics</span><span class="tag">Lecture 4</span>
+      <h4>a) Regression performance metrics</h4>
+      <ul>
+        <li><strong>MAE (Mean Absolute Error)</strong> = average of |ŷᵢ − yᵢ|. Robust to outliers. Easiest to interpret: average prediction error in the same units as the target.</li>
+        <li><strong>MSE (Mean Squared Error)</strong> = average of (ŷᵢ − yᵢ)². Penalises large errors more. Differentiable, so useful for training.</li>
+        <li><strong>RMSE (Root MSE)</strong> = √MSE. Same units as target. Most commonly reported. Lower is better.</li>
+        <li><strong>R² (coefficient of determination)</strong> = 1 − SS_res/SS_tot. Proportion of variance explained. R²=1 is perfect; R²=0 is no better than predicting the mean; R²&lt;0 is worse than the mean.</li>
+      </ul>
+      <h4>b) Confusion matrix and derived metrics</h4>
+      <p>A confusion matrix shows the counts of <strong>TP</strong> (true positives), <strong>TN</strong> (true negatives), <strong>FP</strong> (false positives), <strong>FN</strong> (false negatives).</p>
+      <ul>
+        <li><strong>Accuracy</strong> = (TP+TN)/(TP+TN+FP+FN). Misleading for imbalanced classes.</li>
+        <li><strong>Precision</strong> = TP/(TP+FP). "Of all positive predictions, how many are truly positive?" — quality.</li>
+        <li><strong>Recall (Sensitivity)</strong> = TP/(TP+FN). "Of all actual positives, how many did we catch?" — coverage.</li>
+        <li><strong>F1-score</strong> = 2×(P×R)/(P+R). Harmonic mean; useful when both precision and recall matter equally.</li>
+        <li><strong>Macro-F1</strong> = average F1 per class, treating each class equally regardless of size. Best for imbalanced multi-class problems.</li>
+      </ul>
+      <h4>c) ROC curve and AUC</h4>
+      <p>The <strong>ROC curve</strong> plots <em>True Positive Rate (TPR = Recall)</em> on the y-axis vs. <em>False Positive Rate (FPR = FP/(FP+TN))</em> on the x-axis, sweeping across all possible decision thresholds.</p>
+      <ul>
+        <li><strong>AUC = 0.5</strong>: random classifier (diagonal line — no discrimination).</li>
+        <li><strong>AUC = 1.0</strong>: perfect classifier.</li>
+        <li><strong>Perfect classifier shape</strong>: the curve goes straight up from (0,0) to (0,1) then horizontally to (1,1) — an L-shape hugging the top-left corner.</li>
+      </ul>
+      <p>AUC is threshold-invariant — it evaluates the model across all possible cut-offs, making it useful for comparing classifiers independent of any specific threshold.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q3</span>
+      <span class="qa-question">Gradient Descent variants, bias-variance tradeoff, and regularisation (Ridge, Lasso, Elastic Net).</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Gradient Descent</span><span class="tag">Lecture 3</span>
+      <h4>a) Gradient Descent and its variants</h4>
+      <p>Gradient Descent minimises a cost function J(θ) by iteratively updating parameters in the direction of steepest descent: <code>θ = θ − α · ∇J(θ)</code>, where α is the learning rate.</p>
+      <ul>
+        <li><strong>Batch GD</strong>: uses the entire training set to compute the gradient at each step. Stable, guaranteed convergence for convex functions. Very slow for large datasets.</li>
+        <li><strong>Stochastic GD (SGD)</strong>: uses one randomly chosen training instance per step. Fast updates; noisy convergence; can escape shallow local minima but bounces around the minimum.</li>
+        <li><strong>Mini-batch GD</strong>: uses small random subsets (e.g., 32–256 samples). Best of both worlds — can exploit GPU parallelism, smoother convergence than SGD, faster than batch GD. Most widely used in practice (deep learning).</li>
+      </ul>
+      <h4>b) Bias-Variance tradeoff</h4>
+      <ul>
+        <li><strong>Bias</strong>: error from overly simplistic assumptions. High bias → model underfits (misses patterns in both train and test data).</li>
+        <li><strong>Variance</strong>: sensitivity to small fluctuations in training data. High variance → model overfits (great on train, poor on test).</li>
+        <li><strong>Formula</strong>: Total error = Bias² + Variance + Irreducible noise.</li>
+        <li>Simple models (linear regression, shallow tree): <em>high bias, low variance</em>.</li>
+        <li>Complex models (deep trees, large neural nets): <em>low bias, high variance</em>.</li>
+        <li><strong>Tradeoff</strong>: decreasing bias (making model more complex) usually increases variance, and vice versa. Goal: find the sweet spot that minimises total error on unseen data.</li>
+      </ul>
+      <h4>c) Ridge vs Lasso vs Elastic Net</h4>
+      <ul>
+        <li><strong>Ridge (L2)</strong>: adds <code>λ · Σwᵢ²</code> to loss. Shrinks all weights toward zero but never to exactly zero. Handles multicollinearity. <em>Use when all features may be relevant and you need weight shrinkage.</em></li>
+        <li><strong>Lasso (L1)</strong>: adds <code>λ · Σ|wᵢ|</code> to loss. Drives some weights to exactly zero → automatic feature selection. Produces sparse models. <em>Use when you suspect only a few features truly matter.</em></li>
+        <li><strong>Elastic Net</strong>: combines L1 + L2. Balances feature selection and weight shrinkage. Handles correlated features better than pure Lasso (which picks one arbitrarily). <em>Preferred when there are many correlated features or when Lasso is too unstable.</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q4</span>
+      <span class="qa-question">Ensemble Learning: bagging, boosting, base learner choice, and Random Forest.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Ensemble Learning</span><span class="tag">Lecture 5</span>
+      <h4>a) Bagging (Bootstrap Aggregating)</h4>
+      <p>Introduced by Breiman (1996). Combines multiple weak learners trained independently in <strong>parallel</strong>.</p>
+      <ul>
+        <li><strong>Bootstrap sampling</strong>: draw N samples from training set <em>with replacement</em>. Each sample retains ~63.2% unique instances; ~36.8% are out-of-bag (OOB) and can be used for validation.</li>
+        <li>Train L independent base learners on each bootstrap sample.</li>
+        <li>Combine predictions: <em>majority voting</em> for classification, <em>averaging</em> for regression.</li>
+        <li>Why it works: diverse learners trained on different subsets → errors are decorrelated → lower variance in ensemble vs. any single model.</li>
+        <li><strong>Random Forest</strong> = bagging of decision trees + random feature subsetting at each split (further decorrelates trees).</li>
+      </ul>
+      <h4>b) Bagging vs Boosting — and when to prefer bagging</h4>
+      <table style="border-collapse:collapse;width:100%;font-size:.88rem;margin-bottom:.7rem;">
+        <tr style="background:#0f3460;"><th style="padding:.4rem .7rem;text-align:left;">Aspect</th><th style="padding:.4rem .7rem;text-align:left;">Bagging</th><th style="padding:.4rem .7rem;text-align:left;">Boosting</th></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Training</td><td style="padding:.35rem .7rem;">Parallel (independent)</td><td style="padding:.35rem .7rem;">Sequential (each corrects previous)</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Focus</td><td style="padding:.35rem .7rem;">Reduce <strong>variance</strong></td><td style="padding:.35rem .7rem;">Reduce <strong>bias</strong></td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Base learners</td><td style="padding:.35rem .7rem;">High-variance, low-bias (deep trees)</td><td style="padding:.35rem .7rem;">Weak, high-bias (stumps/shallow trees)</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Noise sensitivity</td><td style="padding:.35rem .7rem;">Robust</td><td style="padding:.35rem .7rem;">Can overfit noisy data</td></tr>
+      </table>
+      <p><strong>Prefer bagging when:</strong> data is noisy, parallelisation is needed, base models already have high variance, or robustness is prioritised.</p>
+      <h4>c) How base learner choice affects performance</h4>
+      <ul>
+        <li><strong>For bagging</strong>: use high-variance, low-bias learners (e.g., deep unpruned decision trees). Bagging reduces their variance. Shallow trees in bagging = underpowered (not enough variance to reduce).</li>
+        <li><strong>For boosting</strong>: use weak, high-bias learners (e.g., decision stumps). Boosting sequentially corrects their bias. Using complex base learners in boosting risks rapid overfitting.</li>
+        <li>Key principle: base learner type must be <em>coherent</em> with the aggregation strategy's goal (variance-reduction vs. bias-reduction).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q5</span>
+      <span class="qa-question">Dimensionality Reduction: PCA, LDA vs PCA, feature selection vs feature extraction.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Dimensionality Reduction</span><span class="tag">Lecture 6</span>
+      <h4>a) PCA — role of eigenvectors and eigenvalues</h4>
+      <p>PCA finds directions of maximum variance in the data and projects it onto a lower-dimensional subspace.</p>
+      <p><strong>Steps:</strong> (1) Centre the data (subtract mean). (2) Compute covariance matrix Σ. (3) Find eigenvectors and eigenvalues of Σ. (4) Sort by descending eigenvalue. (5) Project data onto the top-k eigenvectors.</p>
+      <ul>
+        <li><strong>Eigenvectors</strong>: the <em>principal components</em> — directions of maximum variance. They are mutually orthogonal (perpendicular).</li>
+        <li><strong>Eigenvalues</strong>: scalar values indicating the <em>amount of variance</em> explained in each eigenvector direction. The first principal component has the largest eigenvalue (captures most variance).</li>
+        <li>The explained variance ratio (eigenvalue / sum of all eigenvalues) tells you how many components to keep (e.g., keep 95% of variance).</li>
+      </ul>
+      <h4>b) PCA vs LDA — when to prefer LDA</h4>
+      <ul>
+        <li><strong>PCA</strong>: <em>unsupervised</em>. Maximises total variance in data. Ignores class labels. May choose directions that don't separate classes. Up to min(N, D) components.</li>
+        <li><strong>LDA</strong>: <em>supervised</em> (discriminative). Maximises ratio of between-class variance to within-class variance. Explicitly uses class labels for separability. At most (C−1) components (C = number of classes).</li>
+        <li><strong>Example</strong>: In face recognition, <em>Fisherfaces</em> (LDA-based) outperform <em>Eigenfaces</em> (PCA-based) under varying illumination, because LDA learns class-specific discriminating features rather than just the highest-variance directions.</li>
+        <li><strong>Prefer LDA when</strong>: you have class labels, classification is the goal, and you want the projection to maximise class separability.</li>
+      </ul>
+      <h4>c) Feature selection vs Feature extraction</h4>
+      <ul>
+        <li><strong>Feature selection</strong>: chooses a <em>subset</em> of original features. Original features remain unchanged. Methods: forward/backward search, filter (correlation, mutual information), wrapper (RFE). Original features remain interpretable. Example: selecting "salt" and "saturated fat" from nutritional features.</li>
+        <li><strong>Feature extraction</strong>: <em>transforms</em> the original feature space into a new (usually lower-dimensional) space. New features are combinations of originals. Methods: PCA (linear), LDA, autoencoders (non-linear). New features may not be directly interpretable. Example: PCA on nutritional data creates components that are linear combinations of all nutrients.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q6</span>
+      <span class="qa-question">Artificial Neural Networks: perceptron, activation functions, and preventing overfitting.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">ANNs</span><span class="tag">Lecture 7</span>
+      <h4>a) The perceptron model and its limitations</h4>
+      <p>The perceptron (Rosenblatt, 1957) is the simplest neural network unit. It computes: <code>z = Σwᵢxᵢ + b</code>, then applies a step function: output = 1 if z ≥ 0, else 0.</p>
+      <p><strong>Limitations:</strong></p>
+      <ul>
+        <li>Can only solve <em>linearly separable</em> problems (cannot learn XOR).</li>
+        <li>The step function is non-differentiable → cannot use gradient descent.</li>
+        <li>No hidden layers → cannot learn complex, non-linear mappings.</li>
+        <li>Solution: Multi-Layer Perceptron (MLP) with differentiable non-linear activation functions and backpropagation.</li>
+      </ul>
+      <h4>b) Activation functions — role and examples</h4>
+      <p><strong>Role:</strong> Introduce non-linearity. Without them, any stack of linear layers reduces to a single linear transformation — a deep network would be equivalent to a shallow one.</p>
+      <ul>
+        <li><strong>Sigmoid</strong>: σ(x) = 1/(1+e⁻ˣ), range [0,1]. Squashes output to probability range. Problem: vanishing gradients (derivative ≤ 0.25), slow training in deep nets.</li>
+        <li><strong>Tanh</strong>: range [−1,1]. Zero-centred (better than sigmoid). Still suffers from vanishing gradients in very deep nets.</li>
+        <li><strong>ReLU</strong>: f(x) = max(0,x). No saturation for positive inputs → gradient = 1 there. Fast, sparse activation. Default choice for hidden layers. Problem: "dying ReLU" (neuron stuck at 0 if input always negative).</li>
+        <li><strong>Leaky ReLU / ELU</strong>: fix dying ReLU by allowing small negative activations. Less prone to vanishing gradients.</li>
+        <li><strong>Softmax</strong>: converts logits to probabilities summing to 1. Used in output layer for multi-class classification.</li>
+      </ul>
+      <h4>c) Preventing overfitting in neural networks</h4>
+      <ul>
+        <li><strong>Dropout</strong>: randomly deactivates a fraction (e.g., 50%) of neurons each training step. Forces the network to learn redundant, robust representations. Not applied at inference.</li>
+        <li><strong>L1/L2 regularisation</strong>: add penalty term to loss function. L2 (weight decay) shrinks all weights; L1 drives some to zero (sparse weights).</li>
+        <li><strong>Early stopping</strong>: monitor validation loss; stop training when it stops decreasing. Prevents memorisation of training set.</li>
+        <li><strong>Batch normalisation</strong>: normalises layer inputs per mini-batch, reducing internal covariate shift. Also has an implicit regularisation effect.</li>
+        <li><strong>Data augmentation</strong>: artificially expand training data (flip, rotate, crop, add noise). More data = better generalisation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q7</span>
+      <span class="qa-question">Training Deep Neural Networks: vanishing/exploding gradients, learning rate scheduling, optimisers.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Deep Learning Training</span><span class="tag">Lecture 8</span>
+      <h4>a) Vanishing and exploding gradients — causes, effects, and remedies</h4>
+      <p><strong>Vanishing gradient:</strong> during backpropagation, gradients shrink exponentially as they travel from output to early layers. With sigmoid, the derivative is always ≤ 0.25; multiplied through N layers, it approaches zero. Lower layers receive negligible gradient signal and stop learning. Described in detail by Glorot &amp; Bengio (2010).</p>
+      <p><strong>Exploding gradient:</strong> gradients grow exponentially, causing massive, unstable weight updates and NaN values. Mostly occurs in RNNs.</p>
+      <p><strong>Remedies:</strong></p>
+      <ul>
+        <li><strong>Use ReLU or Leaky ReLU</strong>: derivative = 1 for positive inputs → no saturation → gradient flows freely.</li>
+        <li><strong>Proper weight initialisation</strong>: Xavier/Glorot for sigmoid/tanh; He initialisation for ReLU.</li>
+        <li><strong>Batch Normalisation</strong>: keeps activations in the healthy (non-saturating) region of sigmoid/tanh.</li>
+        <li><strong>Gradient clipping</strong>: rescale gradients when their norm exceeds a threshold — prevents explosion without changing direction.</li>
+        <li><strong>LSTM/GRU</strong>: gating mechanisms create linear pathways for gradients through time in RNNs.</li>
+        <li><strong>Residual connections</strong>: skip connections provide a direct gradient highway bypassing layers.</li>
+      </ul>
+      <h4>b) Learning rate — why it matters and two scheduling strategies</h4>
+      <p>LR too high → diverges or oscillates. LR too low → slow convergence, may get stuck.</p>
+      <ul>
+        <li><strong>Step decay</strong>: reduce LR by a factor (e.g., ×0.1) every N epochs. Simple and effective. Allows fast initial learning then fine-grained tuning.</li>
+        <li><strong>Cosine annealing</strong>: LR follows a cosine curve from max to near zero. Smooth decay without abrupt drops. Often combined with warm restarts to escape local minima.</li>
+      </ul>
+      <h4>c) Adam vs RMSProp optimisers</h4>
+      <ul>
+        <li><strong>RMSProp</strong> (Hinton, 2012): maintains an exponential moving average of squared gradients per parameter. Scales each parameter's LR inversely with root of that average. Adapts to each parameter individually. Good for non-stationary objectives (e.g., RNNs). Avoids AdaGrad's monotonically shrinking LR.</li>
+        <li><strong>Adam</strong> (Kingma &amp; Ba, 2014): combines momentum (1st moment = running mean of gradients) + RMSProp (2nd moment = running mean of squared gradients). Bias-corrected estimates. Formula: <code>θ = θ − α · m̂/√(v̂+ε)</code>. Generally faster convergence than RMSProp. The default choice for most deep learning tasks. More robust but has more hyperparameters.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q8</span>
+      <span class="qa-question">Convolutional Neural Networks: architecture, advantages over FC networks, and transfer learning.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">CNNs</span><span class="tag">Lecture 9</span>
+      <h4>a) CNN architecture for image classification</h4>
+      <ul>
+        <li><strong>Input layer</strong>: raw pixel values, e.g., 224×224×3 (H×W×channels).</li>
+        <li><strong>Convolutional layer</strong>: applies learnable filters (kernels) across the image via sliding window. Each filter produces a feature map detecting a specific pattern (edges, textures). Multiple filters → stack of feature maps. Uses weight sharing — same filter applied everywhere.</li>
+        <li><strong>Activation (ReLU)</strong>: applied element-wise after convolution. Sets negative values to zero. Introduces non-linearity. Produces a stack of images with no negative values.</li>
+        <li><strong>Pooling layer (Max Pooling)</strong>: reduces spatial dimensions by taking the maximum value in each local window (e.g., 2×2, stride 2). Provides translation invariance. Reduces computational load and parameter count.</li>
+        <li><strong>Stacked layers</strong>: Conv → ReLU → Pool blocks repeated multiple times. Early layers: low-level features (edges). Later layers: high-level features (shapes, objects).</li>
+        <li><strong>Fully connected layers</strong>: flattened feature maps → dense connections → combine features for classification.</li>
+        <li><strong>Output (Softmax)</strong>: converts logits to class probabilities summing to 1.</li>
+      </ul>
+      <h4>b) Why CNNs outperform standard fully-connected NNs for images</h4>
+      <ul>
+        <li><strong>Local connectivity</strong>: each neuron connects to only a small local region (receptive field), exploiting spatial locality of features.</li>
+        <li><strong>Weight sharing</strong>: the same filter is applied across all positions → massively fewer parameters. A 1M-pixel image with 1000 classes in a FC net would require billions of parameters; CNNs are tractable.</li>
+        <li><strong>Translation invariance</strong>: after pooling, a feature is detected regardless of its location in the image. CNNs recognise X's and O's even when translated, scaled, or slightly rotated.</li>
+        <li><strong>Hierarchical feature learning</strong>: stacking layers learns progressively abstract representations automatically from raw pixels.</li>
+      </ul>
+      <h4>c) Transfer learning</h4>
+      <p>Pre-train a CNN on a large dataset (e.g., ImageNet: 1.2M images, 1000 classes). The network learns general visual features (edges → textures → shapes → objects). Transfer these learned weights to a new task with limited data.</p>
+      <ul>
+        <li><strong>Feature extraction</strong>: freeze all convolutional layers; replace and retrain only the final classifier head. Fast; works when new task is similar to pre-training task.</li>
+        <li><strong>Fine-tuning</strong>: unfreeze some or all layers and retrain with a small learning rate. Better when new domain differs significantly.</li>
+        <li><strong>Benefits</strong>: requires far less labelled data, converges much faster, typically achieves superior accuracy compared to training from scratch.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q9</span>
+      <span class="qa-question">Recurrent Neural Networks: memory, LSTM architecture, and the vanishing gradient problem.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">RNNs / LSTM</span><span class="tag">Lecture 10</span>
+      <h4>a) How RNNs maintain memory and their limitation</h4>
+      <p>An RNN maintains a <strong>hidden state</strong> h_t updated at each time step: <code>h_t = tanh(W_h · h_{t-1} + W_x · x_t)</code>. This hidden state carries information forward in time, acting as the model's "memory." The output at each step depends on both the current input and the previous hidden state.</p>
+      <p><strong>Problem with long-term dependencies:</strong> During backpropagation through time (BPTT), gradients are multiplied by the weight matrix at every time step. If weights &lt; 1, gradients shrink exponentially → early time steps receive almost zero gradient → the model cannot learn relationships between events separated by many steps (long-term dependencies).</p>
+      <h4>b) LSTM architecture — how it solves vanishing gradients</h4>
+      <p>LSTM introduces a separate <strong>cell state</strong> (C_t) that serves as a long-term memory highway alongside the hidden state.</p>
+      <ul>
+        <li><strong>Forget gate</strong> (f_t = σ(W_f · [h_{t-1}, x_t])): decides what to erase from cell state. Near 0 = forget, near 1 = keep.</li>
+        <li><strong>Input gate</strong> (i_t = σ(W_i · [h_{t-1}, x_t])): decides what new information to write. Combined with candidate: C̃_t = tanh(W_c · [h_{t-1}, x_t]).</li>
+        <li><strong>Cell state update</strong>: <code>C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t</code> — update via addition, not multiplication.</li>
+        <li><strong>Output gate</strong> (o_t = σ(W_o · [h_{t-1}, x_t])): <code>h_t = o_t ⊙ tanh(C_t)</code>.</li>
+      </ul>
+      <p><strong>Why it solves vanishing gradients:</strong> The cell state propagates through time via <em>addition</em> rather than multiplication, creating a linear "gradient highway." Gradients can flow back unchanged through many time steps, allowing the model to retain relevant information over long sequences.</p>
+      <p><strong>GRU</strong> (Gated Recurrent Unit): simpler variant that merges forget and input gates into a single <em>update gate</em> and merges cell state and hidden state. Fewer parameters, often similar performance to LSTM.</p>
+      <h4>c) Two approaches to address vanishing gradients in RNNs</h4>
+      <ul>
+        <li><strong>LSTM/GRU</strong>: gating mechanisms create additive gradient pathways. The cell state highway allows gradients to flow backward without exponential decay.</li>
+        <li><strong>Attention mechanisms</strong>: allow the model to directly attend to any position in the input sequence at each decoding step, completely bypassing the sequential gradient bottleneck. Forms the basis of the Transformer architecture.</li>
+        <li><strong>Gradient clipping</strong>: cap gradient norm to prevent exploding gradients (standard practice in RNN training, though it doesn't fix vanishing).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="qa-card" onclick="toggleCard(this)">
+    <div class="qa-header">
+      <span class="qa-number">Q10</span>
+      <span class="qa-question">Generative AI: LLM architecture, Transformer encoder/decoder, and ChatGPT vs original Transformer.</span>
+      <span class="qa-toggle">▼</span>
+    </div>
+    <div class="qa-body">
+      <span class="tag gold">Generative AI</span><span class="tag">Lecture 11</span>
+      <h4>a) What is Generative AI? High-level architecture of LLMs</h4>
+      <p><strong>Generative AI</strong>: a branch of AI that creates new, original content (text, images, audio, video) by learning the distribution of training data. Unlike discriminative models that classify, generative models aim to <em>produce</em> new samples consistent with that distribution.</p>
+      <p><strong>High-level LLM pipeline:</strong></p>
+      <ul>
+        <li><strong>Tokenisation</strong>: input text → tokens (sub-word units). Example: "I Love to code in python" → ["I","Love","to","code","in","python"].</li>
+        <li><strong>Embedding</strong>: tokens → dense vector representations (Word2Vec, GloVe, or learnt embeddings).</li>
+        <li><strong>Positional encoding</strong>: sine/cosine functions added to embeddings to inject word-order information (since Transformer processes in parallel, not sequentially).</li>
+        <li><strong>Transformer decoder layers</strong> (stacked; GPT-3 has 96): masked multi-head self-attention → feed-forward network → residual connections + layer normalisation.</li>
+        <li><strong>Output projection</strong>: hidden states → probability distribution over vocabulary. Autoregressive generation: sample one token at a time, append to input, repeat until end token.</li>
+        <li><strong>Pre-training</strong> on massive text corpus (hundreds of billions of tokens) + <strong>fine-tuning</strong> for specific tasks.</li>
+      </ul>
+      <h4>b) Role of encoder and decoder in the Transformer</h4>
+      <p><strong>Encoder</strong> (Vaswani et al., "Attention Is All You Need", 2017):</p>
+      <ul>
+        <li>Processes the full input sequence <em>bidirectionally</em> (each token attends to all others simultaneously).</li>
+        <li>6 identical layers, each containing: <em>multi-head self-attention</em> + <em>position-wise feed-forward network</em> + residual connection + layer normalisation. Output dimension: d_model = 512.</li>
+        <li>Produces contextualised hidden representations for each input token.</li>
+        <li>Used in models like BERT for understanding tasks (classification, QA).</li>
+      </ul>
+      <p><strong>Decoder</strong>:</p>
+      <ul>
+        <li>Generates output <em>autoregressively</em>, one token at a time.</li>
+        <li>6 layers, each with 3 sub-layers: (1) <em>masked</em> self-attention (cannot attend to future positions — ensures causality); (2) <em>cross-attention</em> over encoder output (aligns decoder to input context); (3) position-wise FFN.</li>
+        <li>The masking implements "autoregression" — the decoder only sees what it has already generated.</li>
+      </ul>
+      <p><strong>Attention mechanism</strong>: maps Query (Q), Key (K), Value (V) vectors. Scaled Dot-Product Attention: <code>Attention(Q,K,V) = softmax(QKᵀ / √d_k) · V</code>. Multi-head attention runs h attention functions in parallel to capture different types of dependencies.</p>
+      <h4>c) ChatGPT vs original Transformer — and RLHF</h4>
+      <ul>
+        <li><strong>Original Transformer</strong>: encoder + decoder. Used for seq-to-seq tasks (e.g., machine translation). Decoder uses cross-attention to attend to encoder output.</li>
+        <li><strong>ChatGPT (GPT series)</strong>: <em>decoder-only</em>. No encoder; no cross-attention. Uses only masked self-attention → strictly unidirectional (left to right). Each token attends only to previous tokens. Generates text one token at a time using the conversation history as context. GPT-3: 96 Transformer decoder layers, 175B parameters.</li>
+        <li><strong>RLHF (Reinforcement Learning from Human Feedback)</strong>: trains the model to be helpful, harmless, and honest:
+          <ol style="padding-left:1.2rem;margin-top:.4rem;">
+            <li><strong>Supervised fine-tuning</strong>: human AI trainers write example conversations; model is fine-tuned on these.</li>
+            <li><strong>Reward model</strong>: trainers rank different model responses by quality; a reward model is trained to predict human preference scores.</li>
+            <li><strong>RL with PPO</strong>: the language model (policy) is trained using Proximal Policy Optimisation to maximise the reward model's scores.</li>
+          </ol>
+        </li>
+        <li><strong>Why RLHF?</strong> A raw language model predicts the next likely token but may generate harmful, biased, or unhelpful content. RLHF aligns the model's behaviour to match human values and conversational goals.</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2 — RELATED QUESTIONS (tied to Nutrition Advisor)
+═══════════════════════════════════════════════════════════════ -->
+<section id="related">
+  <h2 class="section-title">Section 2 — Related Questions</h2>
+  <p class="section-desc">Additional questions for each exam topic, grounded in the <strong>Nutrition Advisor</strong> project report and code. Click to reveal answers.</p>
+
+  <p class="topic-header">Q1 — General ML</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">How did the Nutrition Advisor project face the challenge of "non-representative training data"?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The Open Food Facts dataset (299,299 rows) is a <strong>crowd-sourced</strong> database, meaning product entries depend on what contributors choose to upload. This introduces sampling bias: European (especially French) products are over-represented, while products from other regions are sparse. As a result, the trained classifier may generalise less well to nutritional products from under-represented markets.</p>
+      <p>Additionally, many products had missing nutritional values (handled via imputation or removal). The project used <strong>stratified splits</strong> (60%/20%/20%) to ensure Nutri-Score class proportions were preserved across train/validation/test sets, mitigating within-split imbalance.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">The Random Forest achieved test accuracy of 90.2% — how did you ensure this wasn't overfitting?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Three safeguards were used:</p>
+      <ul>
+        <li><strong>Stratified hold-out test set</strong> (59,860 samples, 20%) was never used during training or hyperparameter search, ensuring an unbiased final evaluation.</li>
+        <li><strong>GridSearchCV with 3-fold cross-validation</strong> on the training set for hyperparameter tuning. The model was selected based on cross-validation performance, not test set performance.</li>
+        <li><strong>Out-of-bag (OOB) error</strong> is implicitly available in Random Forest (each tree is evaluated on the ~36.8% samples not in its bootstrap sample), providing a built-in overfitting check.</li>
+      </ul>
+      <p>The final test macro-F1 of 0.884 is consistent with the validation performance, confirming the model generalises rather than overfits.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">What would have gone wrong if GridSearchCV had tuned hyperparameters directly on the 20% test set?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The 59,860-sample test set would have effectively become part of training. Each hyperparameter combination tried would push the model to perform well on that specific split. After many trials, the selected model would be over-fitted to the test set's particular quirks — the test macro-F1 of 0.884 would be inflated and would not predict real-world performance. Re-evaluating on a truly unseen dataset would likely show a lower score. Using cross-validation on the <em>training</em> set, as the project did, prevents this by keeping the test set completely blinded.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q2 — Performance Metrics</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Why was macro-F1 chosen as the primary metric instead of accuracy for the Nutri-Score classifier?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The Open Food Facts dataset has an <strong>imbalanced class distribution</strong> across Nutri-Score grades A–E. If class D had far more samples than class A, a model that predicts "D" for everything could achieve high accuracy yet be useless for identifying healthy products (grade A).</p>
+      <p><strong>Macro-F1</strong> computes the F1-score separately for each class and averages them with <em>equal weight</em>, regardless of class size. This forces the model to perform well across all five grades, including minority classes. The Random Forest achieved macro-F1 0.884 vs. Logistic Regression's 0.620 — a difference that would have been partially masked by accuracy alone.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Class B had a lower F1 than other grades in your Random Forest. What does that imply about the confusion matrix?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>A lower F1 for class B (F1 ≈ 0.775 vs overall macro 0.884) implies the model struggles to clearly separate B from its neighbouring classes — most likely <strong>A</strong> (slightly healthier) and <strong>C</strong> (slightly less healthy). In the confusion matrix this would manifest as:</p>
+      <ul>
+        <li><strong>FP for B</strong>: some A or C products predicted as B (reducing precision).</li>
+        <li><strong>FN for B</strong>: some true-B products predicted as A or C (reducing recall).</li>
+      </ul>
+      <p>This is expected because the nutritional boundaries between adjacent Nutri-Score grades are subtle. Products near the A/B or B/C threshold share very similar feature values (energy, fat, sugar, salt), making them inherently hard to classify.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q3 — Gradient Descent &amp; Regularisation</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Why did Logistic Regression (macro-F1 0.620) perform so much worse than Random Forest (0.884)?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Logistic Regression optimised with gradient descent assumes a <strong>linear decision boundary</strong> between Nutri-Score classes. The relationship between nutritional features (energy, fat, sugar, salt, fibre, protein, carbs) and Nutri-Score is highly non-linear — no simple linear combination of those features cleanly separates grades A–E.</p>
+      <p>This is a classic <strong>high-bias / underfitting</strong> scenario: the model is too simple for the data's complexity. Random Forest, being an ensemble of non-linear decision trees, can capture complex interactions (e.g., "high salt AND high saturated fat → grade D") that Logistic Regression cannot.</p>
+      <p>Adding regularisation (Ridge/Lasso) to Logistic Regression would help avoid overfitting but would not fix the fundamental linear boundary limitation — it would still underfit the non-linear Nutri-Score function.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">How does the bias-variance tradeoff relate to tuning Random Forest's max_depth hyperparameter?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>A very deep tree (max_depth = None, unconstrained) has <strong>low bias</strong> (captures complex patterns) but <strong>high variance</strong> (overfits individual bootstrap samples). A shallow tree (small max_depth) has <strong>high bias</strong> but <strong>low variance</strong>.</p>
+      <p>The project's GridSearchCV searched over max_depth values (e.g., None vs 20) to find the sweet spot. The Random Forest's bagging mechanism already reduces much of the variance from deep trees, so in practice max_depth=None often works well — the ensemble averaging cancels out individual tree overfitting. This is one reason Random Forests are robust and a good default choice.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q4 — Ensemble Learning</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Explain why Random Forest was a better choice than a single Decision Tree for the Nutri-Score classifier.</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>A single decision tree is a <strong>high-variance</strong> model: a small change in training data can produce a very different tree. On a dataset of 299,299 products, a single tree would likely overfit to noise in the nutritional values.</p>
+      <p>Random Forest addresses this by:</p>
+      <ul>
+        <li>Training hundreds of trees on different <strong>bootstrap samples</strong> — each sees a different subset of products.</li>
+        <li>Using a random subset of features at each split — decorrelates the trees so their errors don't all go in the same direction.</li>
+        <li><strong>Majority voting</strong> across all trees — individual errors cancel out, leaving the robust signal.</li>
+      </ul>
+      <p>Result: the Random Forest achieved macro-F1 0.884 vs a single tree which would be expected to be significantly lower and more sensitive to the specific train/test split.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Feature importance from your Random Forest showed salt (0.2296) as most important. How does this relate to ensemble learning principles?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Random Forest feature importance is computed as the <strong>mean decrease in impurity</strong> (Gini impurity) across all trees and all splits where a feature is used. A high importance for salt (0.2296) means that when any tree splits on salt, it produces the greatest reduction in node impurity — i.e., salt most strongly separates Nutri-Score classes.</p>
+      <p>This aligns with the Nutri-Score calculation: salt is a "bad" nutrient with high weight in the official Nutri-Score scoring algorithm. The full importance ranking: salt (0.2296) &gt; saturated fat (0.1456) &gt; sugars (0.1336) &gt; energy (0.1228) &gt; proteins (0.1057) &gt; fat (0.1040) &gt; carbs (0.0922) &gt; fibre (0.0665).</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q5 — Dimensionality Reduction</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Your recommender uses cosine similarity on 8-dimensional nutrition vectors. What would PCA do if applied first?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The recommender's feature space is already 8-dimensional (energy, fat, sat. fat, carbs, sugars, fibre, proteins, salt) — low enough that dimensionality reduction is not necessary for computational reasons.</p>
+      <p>Applying PCA first would create new orthogonal components combining all 8 features. The first few principal components would capture the most variance, potentially noise-reducing the feature space. However:</p>
+      <ul>
+        <li>It would reduce interpretability — you can no longer say "similar in salt and sugar."</li>
+        <li>PCA maximises <em>variance</em>, not <em>class separability</em>, so it might not improve Nutri-Score-relevant similarity.</li>
+        <li>With only 8 features and 299,299 samples, the curse of dimensionality is not a concern; PCA would add complexity without clear benefit.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">How does the feature importance from Random Forest relate to feature selection concepts from the dimensionality reduction lecture?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Random Forest feature importance is a form of <strong>embedded feature selection</strong> — feature relevance is determined during model training rather than in a separate preprocessing step. It is analogous to <em>wrapper-method</em> feature selection in principle but performed implicitly within the ensemble.</p>
+      <p>In the Nutrition Advisor project, the importance ranking (salt &gt; saturated fat &gt; sugars &gt; energy &gt; proteins &gt; fat &gt; carbs &gt; fibre) tells us which features most reduce classification impurity. If we applied <em>forward feature selection</em>, we would likely arrive at a similar ordering — adding salt first, then saturated fat, etc. This is feature selection: choosing a <em>subset</em> of the original 8 nutritional features, not transforming them.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q6 — ANNs</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">If you replaced the Random Forest classifier with a neural network, what activation function would you use and why?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>For the hidden layers: <strong>ReLU</strong> (or variants like ELU/Leaky ReLU). The 8 nutritional features → Nutri-Score classification is a tabular data problem. ReLU's non-saturation in the positive region avoids vanishing gradients, enabling efficient training even with several hidden layers.</p>
+      <p>For the output layer: <strong>Softmax</strong>, since this is 5-class classification (Nutri-Score A–E). Softmax converts the final logits to class probabilities summing to 1, from which we extract the predicted grade.</p>
+      <p>However, for tabular data with 8 features, a simple MLP would likely not outperform Random Forest significantly, as tree-based ensembles are generally superior on low-dimensional tabular data. The ANN would require careful tuning of layers, neurons, dropout, and learning rate.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">The ml_analyse_product function returns class probabilities (predict_proba). How are these used in the serving size discount?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The function <code>ml_analyse_product(product)</code> calls <code>best_pipe.predict_proba(feat)[0]</code> to get the probability distribution across Nutri-Score classes A–E.</p>
+      <p>From these probabilities, a <strong>health score</strong> is defined as: <code>health_score = P(A) + P(B)</code> — the combined probability of the product being grade A or B (healthy grades).</p>
+      <p>The ML-driven serving discount formula is: <code>discount = 0.5 + 0.5 × health_score</code>, ranging from 0.5 (worst case, P(A)+P(B)=0) to 1.0 (best case, certain grade A/B). This is then applied as: <code>recommended_g = round(raw_serving_grams × discount)</code>.</p>
+      <p>This elegant use of class probabilities (not just the argmax prediction) allows a <em>continuous, graded</em> recommendation rather than a binary allow/deny decision.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q7 — Training Deep NNs</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">How does GridSearchCV with 3-fold cross-validation relate to early stopping and preventing overfitting?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Both cross-validation and early stopping serve the same goal — choosing model complexity/parameters that <em>generalise</em>, not just train well.</p>
+      <ul>
+        <li><strong>GridSearchCV with 3-fold CV</strong>: for each hyperparameter combination, the training set is split into 3 folds. The model trains on 2 folds and evaluates on 1. This is repeated 3 times. The combination with best average validation score is selected. This prevents choosing parameters that just overfit the specific training partition.</li>
+        <li><strong>Early stopping</strong>: in iterative training (neural nets, gradient boosting), training is halted when validation loss starts increasing — the point where overfitting begins. Analogous to 3-fold CV choosing the optimal "stopping point" in hyperparameter space.</li>
+      </ul>
+      <p>In the Nutrition Advisor project, 3-fold CV effectively acted as the "validation monitor" for the Random Forest hyperparameter search (n_estimators, max_depth, etc.).</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q8 — CNNs</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Your project uses barcode scanning (image input). How does that relate to CNN capabilities?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The <code>scan_barcode()</code> function in the notebook captures an image from the camera and decodes the barcode. This is a computer vision step but uses classical barcode decoding (pattern matching on vertical bars), not a CNN.</p>
+      <p>If a CNN were involved, it would be for cases where the barcode is damaged or partially obscured — a CNN trained to detect and localise barcodes (similar to object detection) could handle such cases. Transfer learning from a pre-trained object-detection CNN (e.g., YOLO) could be fine-tuned to identify barcodes in challenging conditions.</p>
+      <p>Once the barcode number is decoded, <code>fetch_product_from_api(barcode)</code> retrieves nutritional data from the Open Food Facts API, and then the ML pipeline takes over with tabular feature data — entirely separate from CNN processing.</p>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Could transfer learning be applied to improve the Nutri-Score classifier? Explain.</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>Transfer learning in the CNN sense (reusing visual features from ImageNet) doesn't directly apply to tabular nutritional data.</p>
+      <p>However, an analogous transfer learning concept does apply: a Random Forest or neural network pre-trained on a <em>larger</em> nutritional database (e.g., USDA FoodData Central) could be fine-tuned on the Open Food Facts data. The model would have already learned which nutritional features correlate with healthiness.</p>
+      <p>For a neural network specifically: pre-train on a large nutritional dataset, then freeze early layers (general feature detection) and fine-tune the final classification layers on Open Food Facts — directly analogous to CNN transfer learning. This would be particularly useful if Open Food Facts data were smaller or more noisy.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q9 — RNNs</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Your project has no user history — if you had temporal scan data, how would LSTM help?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The current system treats each product scan independently. An LSTM-based extension could model <strong>sequences of scanned products</strong> over days/weeks:</p>
+      <ul>
+        <li>Input sequence: [product_scan_1, product_scan_2, ..., product_scan_t] (each with nutritional features + time of day + meal context).</li>
+        <li>LSTM hidden state carries forward accumulated nutritional intake history.</li>
+        <li>Output: personalised next-product recommendation or nutrient gap prediction.</li>
+      </ul>
+      <p>Standard RNN would fail here because eating patterns have long-term dependencies ("user always skips breakfast on Mondays") that span many time steps — exactly the long-term dependency problem RNNs can't handle. LSTM's cell state would retain this information across hundreds of scan events. GRU would also work with fewer parameters.</p>
+    </div>
+  </div>
+
+  <p class="topic-header">Q10 — Generative AI</p>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">Your system generates weekly diet plans using rule-based logic. How could a Transformer-based LLM improve this?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The current <code>generate_diet_plan(user)</code> uses deterministic rules: BMR → TDEE → daily targets → product selection by cosine similarity. It cannot adapt to user preferences, cultural food habits, or conversational refinement.</p>
+      <p>A Transformer-based LLM integration could:</p>
+      <ul>
+        <li><strong>Natural language interface</strong>: "I'm vegetarian and dislike spinach — give me a high-protein plan." The LLM interprets this and adjusts product selection accordingly.</li>
+        <li><strong>Plan explanation</strong>: generate human-readable explanations for why certain products were recommended ("We chose this product because its salt content is 0.3g/100g, helping you stay within your sodium limit").</li>
+        <li><strong>Contextual adaptation</strong>: the decoder architecture generates a personalised plan token-by-token, attending to the user's full health profile and history via the attention mechanism.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="related-card" onclick="toggleRelated(this)">
+    <div class="related-header">
+      <span class="related-label">RELATED</span>
+      <span class="related-q">The discount formula (0.5 + 0.5 × health_score) is hand-designed. How could RLHF be applied to learn it?</span>
+      <span class="related-toggle">▼</span>
+    </div>
+    <div class="related-body">
+      <p>The current discount formula is a human-designed heuristic. RLHF could replace it with a <em>learned</em> serving-size policy:</p>
+      <ul>
+        <li><strong>Step 1 — Supervised fine-tuning</strong>: collect examples from nutrition experts rating recommended serving sizes as appropriate/too large/too small. Train a model to mimic expert serving suggestions.</li>
+        <li><strong>Step 2 — Reward model</strong>: show users pairs of serving recommendations; record which they prefer (or ask nutritionists to rank). Train a reward model to predict preference scores.</li>
+        <li><strong>Step 3 — RL (PPO)</strong>: treat the serving-size recommender as a policy. Use the reward model as feedback. The policy learns to adjust serving sizes to maximise both nutritional appropriateness and user satisfaction — potentially discovering a better function than the linear <code>0.5 + 0.5 × health_score</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 3 — ORAL FLASHCARDS
+═══════════════════════════════════════════════════════════════ -->
+<section id="oral">
+  <h2 class="section-title">Section 3 — Oral Exam Flashcards</h2>
+  <p class="section-desc">Click the card to flip and reveal the answer. Use arrow buttons to navigate. Based on the <strong>Nutrition Advisor</strong> project report and code.</p>
+
+  <div class="flashcard-controls">
+    <button class="fc-btn" id="fc-prev" onclick="fcNav(-1)" disabled>← Prev</button>
+    <span class="fc-counter" id="fc-counter">1 / 20</span>
+    <button class="fc-btn" id="fc-next" onclick="fcNav(1)">Next →</button>
+    <button class="fc-btn" onclick="fcShuffle()" style="background:#0f3460;">⇄ Shuffle</button>
+    <button class="fc-btn" onclick="fcReset()" style="background:#2d4070;">↺ Reset</button>
+  </div>
+
+  <div class="flashcard-scene" id="flashcard" onclick="fcFlip()">
+    <div class="flashcard-inner" id="fc-inner">
+      <div class="flashcard-face flashcard-front">
+        <div class="fc-label">Question</div>
+        <div class="fc-question" id="fc-q">Loading...</div>
+        <div class="fc-hint">Click to flip</div>
+      </div>
+      <div class="flashcard-face flashcard-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-answer" id="fc-a">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-progress" id="fc-progress"></div>
+</section>
+
+</main>
+
+<script>
+// ── Navigation ──────────────────────────────────────────────────
+function showSection(id, el) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  return false;
+}
+
+// ── Toggle Q&A cards ────────────────────────────────────────────
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+function toggleRelated(card) {
+  card.classList.toggle('open');
+}
+
+// ── Flashcard data ──────────────────────────────────────────────
+const flashcards = [
+  {
+    q: "What is the Nutri-Score system and why did your project use it?",
+    a: "Nutri-Score is a front-of-pack nutrition label (grades A–E) calculated from a product's nutritional composition per 100g. It awards positive points for proteins, fibre, fruits/veg/nuts and negative points for energy, sugar, saturated fat, and salt. The project used it because it provides a standardised, interpretable health label that is both ML-predictable (structured output) and meaningful to end users choosing healthier food options."
+  },
+  {
+    q: "Explain the Mifflin–St. Jeor equation and how your system uses it.",
+    a: "Mifflin–St. Jeor estimates Basal Metabolic Rate (BMR) — the calories burned at complete rest. Male: BMR = 10·w + 6.25·h − 5·a + 5. Female: BMR = 10·w + 6.25·h − 5·a − 161 (where w=weight kg, h=height cm, a=age years). The system's calculate_bmr() function uses this. Then calculate_tdee() multiplies BMR by an activity factor (1.2–1.9) to get Total Daily Energy Expenditure — the user's daily calorie target."
+  },
+  {
+    q: "Why did you choose Random Forest over other classifiers for Nutri-Score prediction?",
+    a: "Three reasons: (1) Nutri-Score depends on non-linear combinations of nutrients — Random Forest captures complex interactions without manual feature engineering. (2) It handles the 8 numerical features robustly, is not sensitive to feature scaling, and handles correlated features (fat and saturated fat are correlated). (3) It naturally provides feature importance scores, giving interpretability. Results confirmed this: macro-F1 0.884 vs kNN 0.853 and Logistic Regression 0.620."
+  },
+  {
+    q: "What is macro-F1 and why is it better than accuracy for your 5-class Nutri-Score problem?",
+    a: "Macro-F1 computes F1-score (harmonic mean of precision and recall) separately for each class, then averages with equal weight regardless of class size. For an imbalanced dataset like Open Food Facts — where some grades are more common than others — accuracy would be dominated by the majority class and mask poor performance on minority classes. Macro-F1 penalises the model equally for misclassifying any grade, forcing it to perform well across all A–E classes."
+  },
+  {
+    q: "Explain the kNN classifier used in your project and why it underperformed vs Random Forest.",
+    a: "k-Nearest Neighbours classifies a product by finding the k most similar products in the training set (by Euclidean distance) and assigning the majority label. kNN achieved macro-F1 0.853 vs Random Forest's 0.884. Reasons for underperformance: (1) kNN is sensitive to feature scales — requires normalisation (the project's make_pipeline with scale=True handles this). (2) kNN has no built-in feature weighting — all 8 features treated equally even though salt is much more informative than fibre. (3) Computationally expensive at inference for 300K samples."
+  },
+  {
+    q: "What is the ML-driven serving size discount? Explain the formula exactly.",
+    a: "The discount is a multiplier reducing the raw serving size suggestion for less-healthy products. The classifier outputs class probabilities for grades A–E. Health score = P(A) + P(B) — probability of being a healthy grade. Discount = 0.5 + 0.5 × health_score, ranging from 0.5 (very unhealthy product) to 1.0 (perfectly healthy). Applied as: recommended_g = round(raw_serving_grams × discount). So a product certain to be grade E gets 50% of the raw serving; a grade A product gets 100%. Code: scan_and_advise() uses this formula."
+  },
+  {
+    q: "Why is the Nutrition Advisor called a 'hybrid' system?",
+    a: "It combines two approaches: (1) Rule-based components: BMR/TDEE calculation (Mifflin–St. Jeor formula), BMI classification (WHO categories), diet plan generation (deterministic rules based on calorie targets and goal), goal feasibility assessment (assess_goal_feasibility). (2) ML components: Nutri-Score classifier (Random Forest, trained on 299K products), content-based recommender (cosine similarity on nutritional feature vectors), ML-driven serving discount (probability-based). The rule-based parts provide physiological accuracy; the ML parts provide data-driven personalisation at scale."
+  },
+  {
+    q: "What is Open Food Facts and what preprocessing did you apply to it?",
+    a: "Open Food Facts is an open, crowd-sourced database of food products with nutritional information per 100g. The project used 299,299 products after preprocessing. Key preprocessing steps: (1) Removed products missing Nutri-Score labels (target variable). (2) Handled missing nutritional values (imputation or removal). (3) Filtered to 8 key features: energy, fat, saturated fat, carbohydrates, sugars, fibre, proteins, salt — all per 100g. (4) Applied stratified train/val/test split (60%/20%/20%) to preserve class distribution."
+  },
+  {
+    q: "How does the recommender system work? What similarity metric does it use?",
+    a: "The recommender is a content-based filtering system using cosine similarity. Function: find_healthier_alternatives(query_idx, goal, k=5). Process: (1) Represent each product as an 8-dimensional nutritional feature vector. (2) Apply goal-specific feature weights via weight_vector_for_goal(goal) — e.g., weight-loss goal upweights calories/fat, muscle-gain upweights protein. (3) Compute cosine similarity between the query product and all products with a better Nutri-Score grade. (4) Return top-k most similar products. Result: 85.4% hit rate with ~1.2 mean grade improvement in evaluation."
+  },
+  {
+    q: "What is cosine similarity and why is it appropriate for nutritional feature vectors?",
+    a: "Cosine similarity measures the angle between two vectors: cos(θ) = (A·B)/(||A||·||B||), ranging from 0 (orthogonal) to 1 (identical direction). It measures the shape/proportion of a nutritional profile rather than its absolute magnitude. This is appropriate because two products with the same nutritional ratios but different portion sizes should be considered similar — a 50g product and a 100g product of the same food have identical nutritional profiles per 100g, and cosine similarity captures this while Euclidean distance would not."
+  },
+  {
+    q: "Why did you use 3-fold cross-validation for hyperparameter tuning?",
+    a: "With 179,579 training samples, 3-fold CV provides: (1) Reliable generalisation estimates — each hyperparameter combination is tested on 3 different validation subsets, reducing variance in the performance estimate. (2) More efficient use of data — all training samples contribute to both training (in 2 folds) and validation (in 1 fold). (3) Protection against test set leakage — hyperparameters are selected based only on training data, keeping the 20% test set completely blinded. 5-fold or 10-fold would give more reliable estimates but was likely avoided for computational efficiency with a large dataset and many hyperparameter combinations."
+  },
+  {
+    q: "Which feature was most important in the Random Forest and why does that make sense?",
+    a: "Salt was most important (importance score 0.2296), followed by saturated fat (0.1456), sugars (0.1336), energy (0.1228), proteins (0.1057), fat (0.1040), carbohydrates (0.0922), and fibre (0.0665). This makes physiological sense: salt content is a primary determinant in the official Nutri-Score algorithm and varies enormously across food categories (from ~0 in fresh fruit to >3g/100g in processed meats/crisps), making it the strongest discriminator. Fibre is least important because few products have significant fibre, reducing its discriminating power."
+  },
+  {
+    q: "What is GridSearchCV and what hyperparameters did the project tune?",
+    a: "GridSearchCV from scikit-learn performs exhaustive search over a specified hyperparameter grid with cross-validation. For each combination, it trains the model on CV training folds and evaluates on the CV validation fold. The project used make_pipeline(model, scale=False) to build scikit-learn pipelines, then applied GridSearchCV. Tuned hyperparameters for Random Forest likely included: n_estimators (number of trees), max_depth (tree depth — controls bias/variance), min_samples_split, min_samples_leaf, max_features. The best combination was selected by macro-F1 on CV validation folds."
+  },
+  {
+    q: "What limitations does using BMI have in your system?",
+    a: "BMI (weight/height²) is used in calculate_bmi() and classify_bmi() with WHO categories (Underweight <18.5, Normal 18.5–24.9, Overweight 25–29.9, Obese ≥30). Limitations: (1) BMI cannot distinguish fat mass from muscle mass — a muscular athlete may be classified as 'obese'. (2) Doesn't account for fat distribution (visceral vs subcutaneous). (3) BMI reference ranges were developed for European populations and may be inaccurate for Asian or other ethnic groups (different body composition). (4) Doesn't capture age-related changes in body composition. These are acknowledged limitations; the system uses BMI as a quick approximation, supplemented by goal-based targets."
+  },
+  {
+    q: "Why didn't you use collaborative filtering for the recommender?",
+    a: "Collaborative filtering requires user interaction history — ratings, purchase history, or scan logs. The Nutrition Advisor has no user database or interaction log between users; each session is independent. Collaborative filtering would ask 'users who liked product X also liked product Y' — but without a user base, there are no such patterns to exploit. Content-based filtering was the natural choice: recommend similar products based on nutritional feature vectors, which are available for all 299K products without any user history. A future extension could add collaborative filtering once a user base is established."
+  },
+  {
+    q: "What does TDEE mean and how is it calculated?",
+    a: "TDEE = Total Daily Energy Expenditure — the total calories a person burns per day including all activity. Calculated as: TDEE = BMR × activity_factor. Activity factors: Sedentary (desk job, little exercise): 1.2; Lightly active (light exercise 1–3 days/week): 1.375; Moderately active (moderate exercise 3–5 days/week): 1.55; Very active (hard exercise 6–7 days/week): 1.725; Extra active (physical job + intense training): 1.9. The function calculate_daily_targets(tdee, goal) then adjusts TDEE based on goal: weight loss (deficit), muscle gain (surplus), or maintenance. This drives the budget for the diet plan."
+  },
+  {
+    q: "What is the 85.4% hit rate of the recommender and what causes the 14.6% miss rate?",
+    a: "Hit rate = percentage of test cases where the recommender successfully returned at least one alternative with a better Nutri-Score grade. 85.4% hit rate means the system found a healthier alternative in the dataset for 85.4% of queried products. The 14.6% miss rate occurs when: (1) The queried product is already grade A — no healthier grade exists to recommend. (2) The queried product is so nutritionally unique (unusual combination of values) that no other product with a better grade has high cosine similarity. (3) Sparse coverage for some food categories in Open Food Facts. The mean Nutri-Score grade improvement of ~1.2 grades confirms recommendations are meaningfully healthier."
+  },
+  {
+    q: "Explain the data split used in the project and why stratification was important.",
+    a: "Split: 60% training (179,579), 20% validation (59,860), 20% test (59,860) — total 299,299 products. Stratification ensures each split has the same proportion of each Nutri-Score class (A–E) as the full dataset. Without stratification, a random split might give the test set 30% grade D but only 15% grade A, while training has the opposite — leading to a classifier trained on a different distribution than it is evaluated on. Stratified splits ensure fair, comparable class distributions across all three sets, giving valid train/val/test comparisons."
+  },
+  {
+    q: "What is the scan_and_advise function and what ML components does it use?",
+    a: "scan_and_advise(barcode=None, user=None) is the main user-facing function that integrates all ML components. Flow: (1) scan_barcode() captures barcode image → barcode number. (2) fetch_product_from_api(barcode) retrieves nutritional data from Open Food Facts API. (3) ml_analyse_product(product) runs the trained Random Forest pipeline → returns predicted Nutri-Score grade + class probabilities. (4) health_score = P(A) + P(B) computed from probabilities. (5) discount = 0.5 + 0.5 × health_score applied to serving size. (6) check_diet_plan_fit() checks if the product fits the user's remaining daily budget. (7) find_healthier_alternatives() suggests swaps via cosine similarity recommender."
+  },
+  {
+    q: "What was the biggest technical challenge in the project and how did you address it?",
+    a: "The primary challenge was achieving reliable Nutri-Score classification across all 5 grades (A–E) on a large, imbalanced, crowd-sourced dataset. Logistic Regression (macro-F1 0.620) showed the problem is non-linear. The solution involved: (1) Choosing Random Forest — captures complex non-linear interactions between nutrients. (2) Using scikit-learn pipelines (make_pipeline) for clean, reproducible training. (3) GridSearchCV with 3-fold CV for principled hyperparameter tuning. (4) Evaluating with macro-F1 rather than accuracy to ensure all classes were properly learned. The final Random Forest (macro-F1 0.884, test accuracy 0.902) demonstrated that the ML approach substantially outperforms the rule-based baseline."
+  }
+];
+
+let fcOrder = flashcards.map((_, i) => i);
+let fcIdx = 0;
+let fcVisited = new Set();
+
+function fcRender() {
+  const card = flashcards[fcOrder[fcIdx]];
+  document.getElementById('fc-q').textContent = card.q;
+  document.getElementById('fc-a').textContent = card.a;
+  document.getElementById('fc-counter').textContent = (fcIdx+1) + ' / ' + fcOrder.length;
+  document.getElementById('fc-prev').disabled = fcIdx === 0;
+  document.getElementById('fc-next').disabled = fcIdx === fcOrder.length - 1;
+  // unflip
+  document.getElementById('flashcard').classList.remove('flipped');
+  // update dots
+  const prog = document.getElementById('fc-progress');
+  prog.innerHTML = '';
+  fcOrder.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (i === fcIdx ? ' current' : '') + (fcVisited.has(i) && i !== fcIdx ? ' visited' : '');
+    d.onclick = (e) => { e.stopPropagation(); fcJump(i); };
+    prog.appendChild(d);
+  });
+}
+
+function fcFlip() {
+  fcVisited.add(fcIdx);
+  document.getElementById('flashcard').classList.toggle('flipped');
+  fcRender();
+}
+
+function fcNav(dir) {
+  fcVisited.add(fcIdx);
+  fcIdx = Math.max(0, Math.min(fcOrder.length - 1, fcIdx + dir));
+  fcRender();
+}
+
+function fcJump(i) {
+  fcVisited.add(fcIdx);
+  fcIdx = i;
+  fcRender();
+}
+
+function fcShuffle() {
+  for (let i = fcOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [fcOrder[i], fcOrder[j]] = [fcOrder[j], fcOrder[i]];
+  }
+  fcIdx = 0;
+  fcVisited.clear();
+  fcRender();
+}
+
+function fcReset() {
+  fcOrder = flashcards.map((_, i) => i);
+  fcIdx = 0;
+  fcVisited.clear();
+  document.getElementById('flashcard').classList.remove('flipped');
+  fcRender();
+}
+
+// Init
+fcRender();
+</script>
+</body>
+</html>

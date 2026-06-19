@@ -113,12 +113,64 @@
     background: var(--reveal-bg);
   }
   .qa-card.open .qa-body { display: block; }
-  .qa-body h4 {
-    color: var(--gold);
-    font-size: .8rem;
+  /* Sub-question row */
+  .sub-q {
+    display: flex;
+    gap: .7rem;
+    align-items: baseline;
+    margin: 1.1rem 0 .5rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px dashed var(--card-border);
+  }
+  .sub-q-letter {
+    background: var(--highlight);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 800;
+    border-radius: 4px;
+    padding: .15rem .45rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+    font-family: 'Consolas', monospace;
+  }
+  .sub-q-text {
+    color: #c8d8f0;
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  /* Short answer box */
+  .short-ans {
+    background: #0b2a1a;
+    border: 1px solid rgba(39,174,96,.35);
+    border-left: 4px solid var(--green);
+    border-radius: 6px;
+    padding: .7rem 1rem;
+    margin-bottom: .8rem;
+    position: relative;
+  }
+  .short-ans-label {
+    font-size: .7rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: .06em;
-    margin: 1rem 0 .4rem;
+    letter-spacing: .07em;
+    color: var(--green);
+    margin-bottom: .35rem;
+  }
+  .short-ans p {
+    color: #d4f5e3 !important;
+    font-size: .92rem !important;
+    line-height: 1.65 !important;
+    margin: 0 !important;
+  }
+  /* Detail section */
+  .detail-label {
+    color: var(--text-muted);
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin: .6rem 0 .4rem;
   }
   .qa-body p { color: var(--text); line-height: 1.7; font-size: .93rem; margin-bottom: .5rem; }
   .qa-body ul { padding-left: 1.3rem; margin-bottom: .5rem; }
@@ -326,31 +378,46 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">General ML</span><span class="tag">Lecture 1–3</span>
-      <h4>a) Main challenges in machine learning</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">What are the main challenges of machine learning?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>The 7 main challenges are: (1) <strong>Insufficient training data</strong>, (2) <strong>Non-representative data</strong> (sampling bias), (3) <strong>Poor-quality data</strong> (noise, outliers), (4) <strong>Irrelevant features</strong> (feature engineering needed), (5) <strong>Overfitting</strong> (model too complex), (6) <strong>Underfitting</strong> (model too simple), (7) <strong>No Free Lunch theorem</strong> — no single algorithm always wins.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
         <li><strong>Insufficient training data</strong> – most algorithms need thousands of examples to work well.</li>
-        <li><strong>Non-representative training data</strong> – sampling bias means the training set doesn't reflect the real distribution (e.g., only data from one region).</li>
+        <li><strong>Non-representative training data</strong> – sampling bias means the training set doesn't reflect the real distribution.</li>
         <li><strong>Poor-quality data</strong> – outliers, errors, and noise cause the model to learn wrong patterns.</li>
-        <li><strong>Irrelevant features</strong> – "garbage in, garbage out"; feature engineering (selection/extraction) is critical.</li>
+        <li><strong>Irrelevant features</strong> – "garbage in, garbage out"; feature engineering is critical.</li>
         <li><strong>Overfitting</strong> – model memorises training data, fails on new instances (high variance).</li>
         <li><strong>Underfitting</strong> – model too simple to capture underlying structure (high bias).</li>
         <li><strong>No Free Lunch theorem</strong> – no single algorithm always wins; choice depends on the problem.</li>
       </ul>
-      <h4>b) Model performs perfectly on training but badly on new data — overfitting</h4>
-      <p>This is called <strong>overfitting</strong>. The model has memorised training examples rather than learning the general relationship.</p>
-      <p><strong>Solutions:</strong></p>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">If a model performs perfectly on training data but poorly on new instances, what is this called and what are the solutions?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>This is called <strong>overfitting</strong> — the model memorises training data rather than learning general patterns. Solutions: regularisation (Ridge/Lasso/Elastic Net), gather more data, reduce noise, simplify the model, use cross-validation, dropout (neural networks), or early stopping.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li>Regularisation (Ridge/Lasso/Elastic Net) — penalise large weights.</li>
-        <li>Gather more training data.</li>
-        <li>Reduce noise in the dataset.</li>
-        <li>Simplify the model (fewer parameters, shallower tree, fewer layers).</li>
-        <li>Cross-validation to detect overfitting early.</li>
+        <li>Regularisation (Ridge/Lasso/Elastic Net) — penalise large weights to constrain model complexity.</li>
+        <li>Gather more training data — more data reduces variance.</li>
+        <li>Reduce noise in the dataset — clean labels, remove outliers.</li>
+        <li>Simplify the model — fewer parameters, shallower tree, fewer layers.</li>
+        <li>Cross-validation — detects overfitting during training before test evaluation.</li>
         <li>Dropout (neural networks) — randomly deactivate neurons during training.</li>
         <li>Early stopping — halt training when validation loss starts increasing.</li>
       </ul>
-      <h4>c) What can go wrong when tuning hyperparameters on the test set?</h4>
-      <p>Repeatedly optimising hyperparameters against the test set causes <strong>data leakage</strong>: the test set effectively becomes part of training. The model is then tuned to the specific quirks of that test set rather than the true data distribution. Reported performance will be over-optimistic and will not reflect real-world generalisation.</p>
-      <p><strong>Solution:</strong> Use a separate <em>validation set</em> (or k-fold cross-validation) for hyperparameter search; keep the test set completely held-out as a final unbiased evaluation.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">What can go wrong if you repeatedly tune hyperparameters to optimise performance on the test set?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>This causes <strong>data leakage</strong> — the test set effectively becomes part of training. The model is tuned to the quirks of that specific test split, making reported performance <strong>over-optimistic</strong>. On truly unseen data, performance will be worse. <em>Solution:</em> use a separate validation set (or k-fold cross-validation) for tuning; keep the test set completely blinded.</p>
+      </div>
+      <div class="detail-label">Detail</div>
+      <p>The test set exists to simulate the real world. Once it is used to make any decision (including hyperparameter selection), it is no longer a fair estimate of generalisation. After many tuning iterations, the selected model is essentially over-fitted to the test set — but this cannot be detected from the reported score alone.</p>
     </div>
   </div>
 
@@ -363,30 +430,47 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Performance Metrics</span><span class="tag">Lecture 4</span>
-      <h4>a) Regression performance metrics</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">What metrics can measure the performance of a regression model? Explain what each measures and how to interpret it.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>MAE</strong> = mean of |errors|, robust to outliers, easy to interpret. <strong>MSE</strong> = mean of squared errors, penalises large errors more. <strong>RMSE</strong> = √MSE, same units as the target variable, most commonly reported. <strong>R²</strong> = proportion of variance explained (1 = perfect, 0 = no better than predicting the mean, &lt;0 = worse than mean). Lower MAE/MSE/RMSE is better; higher R² is better.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>MAE (Mean Absolute Error)</strong> = average of |ŷᵢ − yᵢ|. Robust to outliers. Easiest to interpret: average prediction error in the same units as the target.</li>
-        <li><strong>MSE (Mean Squared Error)</strong> = average of (ŷᵢ − yᵢ)². Penalises large errors more. Differentiable, so useful for training.</li>
-        <li><strong>RMSE (Root MSE)</strong> = √MSE. Same units as target. Most commonly reported. Lower is better.</li>
-        <li><strong>R² (coefficient of determination)</strong> = 1 − SS_res/SS_tot. Proportion of variance explained. R²=1 is perfect; R²=0 is no better than predicting the mean; R²&lt;0 is worse than the mean.</li>
+        <li><strong>MAE</strong> = (1/n)·Σ|ŷᵢ − yᵢ|. Not affected by outlier magnitude. Easy to interpret as average error.</li>
+        <li><strong>MSE</strong> = (1/n)·Σ(ŷᵢ − yᵢ)². Differentiable — useful for gradient-based training. Punishes large errors heavily.</li>
+        <li><strong>RMSE</strong> = √MSE. Same units as target. Preferred for reporting since it's interpretable in context of target scale.</li>
+        <li><strong>R²</strong> = 1 − SS_res/SS_tot. Tells you what fraction of variance the model explains. Negative R² means the model performs worse than a constant mean predictor.</li>
       </ul>
-      <h4>b) Confusion matrix and derived metrics</h4>
-      <p>A confusion matrix shows the counts of <strong>TP</strong> (true positives), <strong>TN</strong> (true negatives), <strong>FP</strong> (false positives), <strong>FN</strong> (false negatives).</p>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What is a confusion matrix and how can it be used to evaluate a classification model? Include precision, recall, accuracy, and F1-score.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>A confusion matrix shows TP, TN, FP, FN. From it: <strong>Accuracy</strong> = (TP+TN)/total (misleading for imbalanced data). <strong>Precision</strong> = TP/(TP+FP) — quality of positive predictions. <strong>Recall</strong> = TP/(TP+FN) — coverage of actual positives. <strong>F1</strong> = 2·P·R/(P+R) — harmonic mean, balanced measure. <strong>Macro-F1</strong> = average F1 per class with equal weight, best for imbalanced multi-class problems.</p>
+      </div>
+      <div class="detail-label">Detail</div>
+      <p>A confusion matrix is a table where rows = actual classes and columns = predicted classes. For a binary classifier:</p>
       <ul>
-        <li><strong>Accuracy</strong> = (TP+TN)/(TP+TN+FP+FN). Misleading for imbalanced classes.</li>
-        <li><strong>Precision</strong> = TP/(TP+FP). "Of all positive predictions, how many are truly positive?" — quality.</li>
-        <li><strong>Recall (Sensitivity)</strong> = TP/(TP+FN). "Of all actual positives, how many did we catch?" — coverage.</li>
-        <li><strong>F1-score</strong> = 2×(P×R)/(P+R). Harmonic mean; useful when both precision and recall matter equally.</li>
-        <li><strong>Macro-F1</strong> = average F1 per class, treating each class equally regardless of size. Best for imbalanced multi-class problems.</li>
+        <li><strong>TP</strong>: correctly predicted positive. <strong>TN</strong>: correctly predicted negative.</li>
+        <li><strong>FP</strong> (Type I error): predicted positive, actually negative. <strong>FN</strong> (Type II error): predicted negative, actually positive.</li>
+        <li>Precision asks: "Are my positive predictions reliable?" — used when FP is costly (e.g., spam filter).</li>
+        <li>Recall asks: "Did I find all real positives?" — used when FN is costly (e.g., cancer screening).</li>
+        <li>F1-score balances both and is the metric of choice when classes are imbalanced.</li>
       </ul>
-      <h4>c) ROC curve and AUC</h4>
-      <p>The <strong>ROC curve</strong> plots <em>True Positive Rate (TPR = Recall)</em> on the y-axis vs. <em>False Positive Rate (FPR = FP/(FP+TN))</em> on the x-axis, sweeping across all possible decision thresholds.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">How can you use an ROC curve to evaluate a classifier? What does AUC represent, and what shape does it have for a perfect classifier?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>The <strong>ROC curve</strong> plots True Positive Rate (Recall) vs. False Positive Rate across all classification thresholds. <strong>AUC = 0.5</strong> means random guessing (diagonal line); <strong>AUC = 1.0</strong> means perfect discrimination. A <strong>perfect classifier</strong> has an L-shaped ROC curve — straight up from (0,0) to (0,1), then across to (1,1). AUC is threshold-invariant, making it ideal for comparing classifiers regardless of operating threshold.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>AUC = 0.5</strong>: random classifier (diagonal line — no discrimination).</li>
-        <li><strong>AUC = 1.0</strong>: perfect classifier.</li>
-        <li><strong>Perfect classifier shape</strong>: the curve goes straight up from (0,0) to (0,1) then horizontally to (1,1) — an L-shape hugging the top-left corner.</li>
+        <li>TPR = TP/(TP+FN) (y-axis); FPR = FP/(FP+TN) (x-axis).</li>
+        <li>Each point on the curve corresponds to a different decision threshold (e.g., 0.3, 0.5, 0.7).</li>
+        <li>A model above the diagonal is better than random; below is worse than random.</li>
+        <li>AUC = probability that the classifier ranks a random positive example higher than a random negative one.</li>
       </ul>
-      <p>AUC is threshold-invariant — it evaluates the model across all possible cut-offs, making it useful for comparing classifiers independent of any specific threshold.</p>
     </div>
   </div>
 
@@ -399,27 +483,42 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Gradient Descent</span><span class="tag">Lecture 3</span>
-      <h4>a) Gradient Descent and its variants</h4>
-      <p>Gradient Descent minimises a cost function J(θ) by iteratively updating parameters in the direction of steepest descent: <code>θ = θ − α · ∇J(θ)</code>, where α is the learning rate.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">Explain the Gradient Descent algorithm and its three main variants. How does each variant differ?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Gradient Descent minimises cost J(θ) by updating: <code>θ = θ − α·∇J(θ)</code>. <strong>Batch GD:</strong> uses full dataset per step — stable but slow. <strong>Stochastic GD (SGD):</strong> uses 1 random sample per step — fast but noisy. <strong>Mini-batch GD:</strong> uses a small subset (e.g., 32–256 samples) — best balance of speed and stability; can use GPU parallelism; most widely used in deep learning.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Batch GD</strong>: uses the entire training set to compute the gradient at each step. Stable, guaranteed convergence for convex functions. Very slow for large datasets.</li>
-        <li><strong>Stochastic GD (SGD)</strong>: uses one randomly chosen training instance per step. Fast updates; noisy convergence; can escape shallow local minima but bounces around the minimum.</li>
-        <li><strong>Mini-batch GD</strong>: uses small random subsets (e.g., 32–256 samples). Best of both worlds — can exploit GPU parallelism, smoother convergence than SGD, faster than batch GD. Most widely used in practice (deep learning).</li>
+        <li><strong>Batch GD</strong>: guaranteed convergence to global minimum for convex functions. Impractical for millions of samples.</li>
+        <li><strong>SGD</strong>: noisy updates help escape local minima. However, the cost function bounces around; a learning rate schedule is needed.</li>
+        <li><strong>Mini-batch GD</strong>: exploits GPU matrix operations on batches, smooths out SGD noise, and is fast enough for large datasets. Standard in modern deep learning frameworks.</li>
       </ul>
-      <h4>b) Bias-Variance tradeoff</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">Explain the bias-variance tradeoff. What happens to the model's error when bias is too high or variance is too high?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Bias</strong> = error from oversimplified model (wrong assumptions) → underfitting: high training AND test error. <strong>Variance</strong> = sensitivity to training data fluctuations → overfitting: low training error, high test error. Total error = Bias² + Variance + irreducible noise. Simple models (linear): high bias, low variance. Complex models (deep trees): low bias, high variance. Goal: minimise total error on unseen data.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Bias</strong>: error from overly simplistic assumptions. High bias → model underfits (misses patterns in both train and test data).</li>
-        <li><strong>Variance</strong>: sensitivity to small fluctuations in training data. High variance → model overfits (great on train, poor on test).</li>
-        <li><strong>Formula</strong>: Total error = Bias² + Variance + Irreducible noise.</li>
-        <li>Simple models (linear regression, shallow tree): <em>high bias, low variance</em>.</li>
-        <li>Complex models (deep trees, large neural nets): <em>low bias, high variance</em>.</li>
-        <li><strong>Tradeoff</strong>: decreasing bias (making model more complex) usually increases variance, and vice versa. Goal: find the sweet spot that minimises total error on unseen data.</li>
+        <li>High bias: model misses the true signal in both train and test. Adding more data won't fix it — the model is too simple.</li>
+        <li>High variance: model memorises training data; small changes in data → large changes in model. Adding more data helps reduce variance.</li>
+        <li>The tradeoff: as you increase model complexity (reduce bias), variance increases; as you simplify (reduce variance), bias increases.</li>
+        <li>Regularisation, ensembling (bagging), and cross-validation all help manage this tradeoff.</li>
       </ul>
-      <h4>c) Ridge vs Lasso vs Elastic Net</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">Compare Ridge, Lasso, and Elastic Net regularisation. When would you use each?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Ridge (L2):</strong> penalty = λΣwᵢ² — shrinks all weights toward zero, none exactly zero; handles multicollinearity. Use when all features may matter. <strong>Lasso (L1):</strong> penalty = λΣ|wᵢ| — drives some weights to exactly zero → automatic feature selection. Use when only a few features truly matter. <strong>Elastic Net:</strong> L1+L2 combined — feature selection + weight shrinkage. Use when features are correlated or Lasso is too aggressive.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Ridge (L2)</strong>: adds <code>λ · Σwᵢ²</code> to loss. Shrinks all weights toward zero but never to exactly zero. Handles multicollinearity. <em>Use when all features may be relevant and you need weight shrinkage.</em></li>
-        <li><strong>Lasso (L1)</strong>: adds <code>λ · Σ|wᵢ|</code> to loss. Drives some weights to exactly zero → automatic feature selection. Produces sparse models. <em>Use when you suspect only a few features truly matter.</em></li>
-        <li><strong>Elastic Net</strong>: combines L1 + L2. Balances feature selection and weight shrinkage. Handles correlated features better than pure Lasso (which picks one arbitrarily). <em>Preferred when there are many correlated features or when Lasso is too unstable.</em></li>
+        <li>Ridge never zeroes out features — all inputs contribute with shrunk coefficients. Good default when you have many features with small but real effects.</li>
+        <li>Lasso's geometry (diamond-shaped constraint) causes exact zeros at corners. Produces sparse, interpretable models.</li>
+        <li>Elastic Net: when correlated features exist, Lasso picks one arbitrarily and drops the rest. Elastic Net keeps related features together. Generally preferred over pure Lasso when p (features) &gt; n (samples).</li>
       </ul>
     </div>
   </div>
@@ -433,29 +532,43 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Ensemble Learning</span><span class="tag">Lecture 5</span>
-      <h4>a) Bagging (Bootstrap Aggregating)</h4>
-      <p>Introduced by Breiman (1996). Combines multiple weak learners trained independently in <strong>parallel</strong>.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">Explain bagging and how it works. Include bootstrap sampling and how predictions are combined.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Bagging (Bootstrap AGGregating, Breiman 1996): (1) Draw L bootstrap samples (sample N instances <strong>with replacement</strong>) — each keeps ~63.2% unique instances. (2) Train L <strong>independent</strong> base learners in <strong>parallel</strong>. (3) Combine: <strong>majority voting</strong> (classification) or <strong>averaging</strong> (regression). Works because diverse learners make different errors → errors cancel out → lower variance. <strong>Random Forest</strong> = bagging + random feature subset at each split.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Bootstrap sampling</strong>: draw N samples from training set <em>with replacement</em>. Each sample retains ~63.2% unique instances; ~36.8% are out-of-bag (OOB) and can be used for validation.</li>
-        <li>Train L independent base learners on each bootstrap sample.</li>
-        <li>Combine predictions: <em>majority voting</em> for classification, <em>averaging</em> for regression.</li>
-        <li>Why it works: diverse learners trained on different subsets → errors are decorrelated → lower variance in ensemble vs. any single model.</li>
-        <li><strong>Random Forest</strong> = bagging of decision trees + random feature subsetting at each split (further decorrelates trees).</li>
+        <li>Out-of-bag (OOB) instances (~36.8% not in each bootstrap sample) can be used as a free validation set.</li>
+        <li>Bagging is especially effective for <em>unstable</em> learners — algorithms where small data changes cause large model changes (e.g., deep decision trees).</li>
+        <li>Concordet's theorem: if each learner is better than random and learners are independent, the ensemble approaches perfect accuracy as L → ∞.</li>
       </ul>
-      <h4>b) Bagging vs Boosting — and when to prefer bagging</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What is the difference between bagging and boosting? When would you prefer bagging over boosting?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Bagging:</strong> trains models in <em>parallel</em> independently, equal weights, reduces <strong>variance</strong>, robust to noise. <strong>Boosting:</strong> trains <em>sequentially</em> — each model corrects the previous one's errors by giving higher weight to misclassified samples, reduces <strong>bias</strong>, can overfit noisy data. Prefer bagging when: data is noisy, you need parallelisation, or robustness is the priority over squeezing maximum accuracy.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <table style="border-collapse:collapse;width:100%;font-size:.88rem;margin-bottom:.7rem;">
         <tr style="background:#0f3460;"><th style="padding:.4rem .7rem;text-align:left;">Aspect</th><th style="padding:.4rem .7rem;text-align:left;">Bagging</th><th style="padding:.4rem .7rem;text-align:left;">Boosting</th></tr>
-        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Training</td><td style="padding:.35rem .7rem;">Parallel (independent)</td><td style="padding:.35rem .7rem;">Sequential (each corrects previous)</td></tr>
-        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Focus</td><td style="padding:.35rem .7rem;">Reduce <strong>variance</strong></td><td style="padding:.35rem .7rem;">Reduce <strong>bias</strong></td></tr>
-        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Base learners</td><td style="padding:.35rem .7rem;">High-variance, low-bias (deep trees)</td><td style="padding:.35rem .7rem;">Weak, high-bias (stumps/shallow trees)</td></tr>
-        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Noise sensitivity</td><td style="padding:.35rem .7rem;">Robust</td><td style="padding:.35rem .7rem;">Can overfit noisy data</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Training order</td><td style="padding:.35rem .7rem;">Parallel (independent)</td><td style="padding:.35rem .7rem;">Sequential (each corrects previous)</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Primary goal</td><td style="padding:.35rem .7rem;">Reduce variance</td><td style="padding:.35rem .7rem;">Reduce bias</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Noise handling</td><td style="padding:.35rem .7rem;">Robust</td><td style="padding:.35rem .7rem;">Can overfit noise</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.35rem .7rem;">Popular algorithms</td><td style="padding:.35rem .7rem;">Random Forest</td><td style="padding:.35rem .7rem;">AdaBoost, XGBoost, Gradient Boosting</td></tr>
       </table>
-      <p><strong>Prefer bagging when:</strong> data is noisy, parallelisation is needed, base models already have high variance, or robustness is prioritised.</p>
-      <h4>c) How base learner choice affects performance</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">How does the choice of base learner affect the performance of bagging vs. boosting?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>For <strong>bagging</strong>: use high-variance, low-bias learners (e.g., deep unpruned decision trees) — bagging reduces their variance. Shallow trees in bagging are underpowered. For <strong>boosting</strong>: use high-bias, weak learners (e.g., decision stumps / shallow trees) — boosting reduces their bias sequentially. Complex learners in boosting overfit quickly. Key principle: the aggregation method must target the base learner's weakness.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>For bagging</strong>: use high-variance, low-bias learners (e.g., deep unpruned decision trees). Bagging reduces their variance. Shallow trees in bagging = underpowered (not enough variance to reduce).</li>
-        <li><strong>For boosting</strong>: use weak, high-bias learners (e.g., decision stumps). Boosting sequentially corrects their bias. Using complex base learners in boosting risks rapid overfitting.</li>
-        <li>Key principle: base learner type must be <em>coherent</em> with the aggregation strategy's goal (variance-reduction vs. bias-reduction).</li>
+        <li>If you put shallow trees (low variance) into bagging, there is little variance to reduce — the ensemble won't improve much over a single tree.</li>
+        <li>If you put complex trees (low bias, high variance) into boosting, the sequential re-weighting will quickly overfit the noise in the data.</li>
+        <li>Homogeneous ensembles (same algorithm) are most common. Stacking uses heterogeneous weak learners (different algorithms) combined by a meta-model.</li>
       </ul>
     </div>
   </div>
@@ -469,25 +582,47 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Dimensionality Reduction</span><span class="tag">Lecture 6</span>
-      <h4>a) PCA — role of eigenvectors and eigenvalues</h4>
-      <p>PCA finds directions of maximum variance in the data and projects it onto a lower-dimensional subspace.</p>
-      <p><strong>Steps:</strong> (1) Centre the data (subtract mean). (2) Compute covariance matrix Σ. (3) Find eigenvectors and eigenvalues of Σ. (4) Sort by descending eigenvalue. (5) Project data onto the top-k eigenvectors.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">What is PCA? What role do eigenvectors and eigenvalues play in it?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>PCA finds directions of <strong>maximum variance</strong> in data and projects it to a lower-dimensional space. Steps: centre data → compute covariance matrix Σ → find eigenvectors &amp; eigenvalues of Σ → sort by descending eigenvalue → project onto top-k eigenvectors. <strong>Eigenvectors</strong> are the principal components (orthogonal directions of variance). <strong>Eigenvalues</strong> measure how much variance each component captures. Keep enough components to retain ~95% of total variance.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Eigenvectors</strong>: the <em>principal components</em> — directions of maximum variance. They are mutually orthogonal (perpendicular).</li>
-        <li><strong>Eigenvalues</strong>: scalar values indicating the <em>amount of variance</em> explained in each eigenvector direction. The first principal component has the largest eigenvalue (captures most variance).</li>
-        <li>The explained variance ratio (eigenvalue / sum of all eigenvalues) tells you how many components to keep (e.g., keep 95% of variance).</li>
+        <li>The first eigenvector (largest eigenvalue) points in the direction of greatest spread in the data.</li>
+        <li>Eigenvectors are orthogonal — principal components are uncorrelated.</li>
+        <li>Explained variance ratio = eigenvalue_k / Σ eigenvalues. Used to decide how many components to keep.</li>
+        <li>Example: Eigenfaces — representing a face as a weighted combination of "eigenface" images (eigenvectors of face covariance matrix).</li>
+        <li>Pitfall: PCA is sensitive to feature scale — normalise features before applying PCA.</li>
       </ul>
-      <h4>b) PCA vs LDA — when to prefer LDA</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What is the difference between PCA and LDA? In what scenarios would you prefer LDA?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>PCA</strong> is unsupervised — maximises total data variance, ignores class labels, can choose directions that don't separate classes; up to min(N,D) components. <strong>LDA</strong> is supervised — maximises between-class/within-class variance ratio, explicitly uses class labels for separability; at most (C−1) components. Prefer LDA when classification is the goal. Example: Fisherfaces (LDA) outperform Eigenfaces (PCA) for face recognition under varying illumination.</p>
+      </div>
+      <div class="detail-label">Detail</div>
+      <table style="border-collapse:collapse;width:100%;font-size:.87rem;margin-bottom:.6rem;">
+        <tr style="background:#0f3460;"><th style="padding:.35rem .6rem;text-align:left;">Feature</th><th style="padding:.35rem .6rem;text-align:left;">Eigenfaces (PCA)</th><th style="padding:.35rem .6rem;text-align:left;">Fisherfaces (LDA)</th></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.3rem .6rem;">Learning type</td><td style="padding:.3rem .6rem;">Unsupervised</td><td style="padding:.3rem .6rem;">Supervised</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.3rem .6rem;">Goal</td><td style="padding:.3rem .6rem;">Maximise variance</td><td style="padding:.3rem .6rem;">Maximise class separability</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.3rem .6rem;">Uses labels</td><td style="padding:.3rem .6rem;">No</td><td style="padding:.3rem .6rem;">Yes</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.3rem .6rem;">Robust to lighting</td><td style="padding:.3rem .6rem;">Poor</td><td style="padding:.3rem .6rem;">Better</td></tr>
+        <tr style="border-top:1px solid var(--card-border)"><td style="padding:.3rem .6rem;">Max dimensions</td><td style="padding:.3rem .6rem;">Up to min(N,D)</td><td style="padding:.3rem .6rem;">At most (classes − 1)</td></tr>
+      </table>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">Explain the difference between feature selection and feature extraction. Give one example of each.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Feature selection</strong>: selects a <em>subset</em> of the original features — originals are unchanged, results remain interpretable. Example: forward/backward search selecting "salt" and "saturated fat" from 8 nutritional features. <strong>Feature extraction</strong>: <em>transforms</em> original features into a new lower-dimensional space. New features are combinations of originals. Example: PCA creating new components as linear combinations of all 8 nutritional features — not directly interpretable.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>PCA</strong>: <em>unsupervised</em>. Maximises total variance in data. Ignores class labels. May choose directions that don't separate classes. Up to min(N, D) components.</li>
-        <li><strong>LDA</strong>: <em>supervised</em> (discriminative). Maximises ratio of between-class variance to within-class variance. Explicitly uses class labels for separability. At most (C−1) components (C = number of classes).</li>
-        <li><strong>Example</strong>: In face recognition, <em>Fisherfaces</em> (LDA-based) outperform <em>Eigenfaces</em> (PCA-based) under varying illumination, because LDA learns class-specific discriminating features rather than just the highest-variance directions.</li>
-        <li><strong>Prefer LDA when</strong>: you have class labels, classification is the goal, and you want the projection to maximise class separability.</li>
-      </ul>
-      <h4>c) Feature selection vs Feature extraction</h4>
-      <ul>
-        <li><strong>Feature selection</strong>: chooses a <em>subset</em> of original features. Original features remain unchanged. Methods: forward/backward search, filter (correlation, mutual information), wrapper (RFE). Original features remain interpretable. Example: selecting "salt" and "saturated fat" from nutritional features.</li>
-        <li><strong>Feature extraction</strong>: <em>transforms</em> the original feature space into a new (usually lower-dimensional) space. New features are combinations of originals. Methods: PCA (linear), LDA, autoencoders (non-linear). New features may not be directly interpretable. Example: PCA on nutritional data creates components that are linear combinations of all nutrients.</li>
+        <li>Feature selection methods: filter (correlation, mutual information), wrapper (forward/backward search, RFE), embedded (Lasso, Random Forest importance).</li>
+        <li>Feature extraction methods: linear (PCA, LDA), non-linear (autoencoders, t-SNE).</li>
+        <li>Feature selection preserves interpretability — preferred when domain knowledge is important.</li>
+        <li>Feature extraction often achieves better compression and noise reduction — preferred when raw features are redundant or noisy.</li>
       </ul>
     </div>
   </div>
@@ -501,31 +636,45 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">ANNs</span><span class="tag">Lecture 7</span>
-      <h4>a) The perceptron model and its limitations</h4>
-      <p>The perceptron (Rosenblatt, 1957) is the simplest neural network unit. It computes: <code>z = Σwᵢxᵢ + b</code>, then applies a step function: output = 1 if z ≥ 0, else 0.</p>
-      <p><strong>Limitations:</strong></p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">Describe the perceptron model. What are its limitations?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>The perceptron (Rosenblatt, 1957) computes <code>z = Σwᵢxᵢ + b</code> then applies a step function (output = 1 if z ≥ 0, else 0). Limitations: (1) Only solves <strong>linearly separable</strong> problems — cannot learn XOR. (2) Step function is <strong>non-differentiable</strong> → gradient descent cannot be applied. (3) No hidden layers → cannot represent non-linear functions. Solution: Multi-Layer Perceptron (MLP) with differentiable activation functions and backpropagation.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li>Can only solve <em>linearly separable</em> problems (cannot learn XOR).</li>
-        <li>The step function is non-differentiable → cannot use gradient descent.</li>
-        <li>No hidden layers → cannot learn complex, non-linear mappings.</li>
-        <li>Solution: Multi-Layer Perceptron (MLP) with differentiable non-linear activation functions and backpropagation.</li>
+        <li>Each input xᵢ is multiplied by weight wᵢ; the bias b shifts the decision boundary.</li>
+        <li>The perceptron learning rule adjusts weights only when a prediction is wrong.</li>
+        <li>Multiple perceptrons → MLP. Adding hidden layers with non-linear activations allows learning complex decision boundaries.</li>
+        <li>Backpropagation (chain rule) propagates error gradients through layers to update weights.</li>
       </ul>
-      <h4>b) Activation functions — role and examples</h4>
-      <p><strong>Role:</strong> Introduce non-linearity. Without them, any stack of linear layers reduces to a single linear transformation — a deep network would be equivalent to a shallow one.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What is the role of activation functions in neural networks? Describe three activation functions and their properties.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Activation functions introduce <strong>non-linearity</strong> — without them, stacking linear layers = one linear transformation, so depth provides no benefit. Three key functions: <strong>Sigmoid</strong>: σ(x)=1/(1+e⁻ˣ), range [0,1] — probability output but suffers vanishing gradients. <strong>ReLU</strong>: max(0,x) — no saturation for positive inputs, default for hidden layers. <strong>Softmax</strong>: converts logits to class probabilities summing to 1 — used in multi-class output layer.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Sigmoid</strong>: σ(x) = 1/(1+e⁻ˣ), range [0,1]. Squashes output to probability range. Problem: vanishing gradients (derivative ≤ 0.25), slow training in deep nets.</li>
-        <li><strong>Tanh</strong>: range [−1,1]. Zero-centred (better than sigmoid). Still suffers from vanishing gradients in very deep nets.</li>
-        <li><strong>ReLU</strong>: f(x) = max(0,x). No saturation for positive inputs → gradient = 1 there. Fast, sparse activation. Default choice for hidden layers. Problem: "dying ReLU" (neuron stuck at 0 if input always negative).</li>
-        <li><strong>Leaky ReLU / ELU</strong>: fix dying ReLU by allowing small negative activations. Less prone to vanishing gradients.</li>
-        <li><strong>Softmax</strong>: converts logits to probabilities summing to 1. Used in output layer for multi-class classification.</li>
+        <li><strong>Sigmoid</strong>: derivative ≤ 0.25 everywhere → multiplied through many layers → vanishing gradient. Also not zero-centered.</li>
+        <li><strong>Tanh</strong>: range [−1,1], zero-centered. Still vanishes in deep nets but better than sigmoid.</li>
+        <li><strong>ReLU</strong>: f(x) = max(0,x). Gradient = 1 for x&gt;0, so no saturation. Risk: "dying ReLU" if neurons always receive negative input (gradient = 0 permanently).</li>
+        <li><strong>Leaky ReLU / ELU</strong>: small negative slope for x&lt;0, fixes dying ReLU.</li>
+        <li><strong>Softmax</strong>: eˣⁱ / Σeˣʲ — output interpreted as probability distribution over classes.</li>
       </ul>
-      <h4>c) Preventing overfitting in neural networks</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">How can you prevent overfitting when training a neural network? Mention at least three techniques.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Dropout:</strong> randomly deactivates a fraction of neurons per training step (e.g., 50%) → forces redundant representations; not applied at inference. <strong>Early stopping:</strong> monitor validation loss; halt training when it starts increasing. <strong>L1/L2 regularisation:</strong> add penalty on weights to the loss function (L2 shrinks all; L1 sparsifies). Also: <strong>Batch normalisation</strong> and <strong>data augmentation</strong> (artificially expand training set).</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Dropout</strong>: randomly deactivates a fraction (e.g., 50%) of neurons each training step. Forces the network to learn redundant, robust representations. Not applied at inference.</li>
-        <li><strong>L1/L2 regularisation</strong>: add penalty term to loss function. L2 (weight decay) shrinks all weights; L1 drives some to zero (sparse weights).</li>
-        <li><strong>Early stopping</strong>: monitor validation loss; stop training when it stops decreasing. Prevents memorisation of training set.</li>
-        <li><strong>Batch normalisation</strong>: normalises layer inputs per mini-batch, reducing internal covariate shift. Also has an implicit regularisation effect.</li>
-        <li><strong>Data augmentation</strong>: artificially expand training data (flip, rotate, crop, add noise). More data = better generalisation.</li>
+        <li>Dropout: at each step, each neuron deactivated with probability p. Forces the network to not rely on specific neurons, learning robust representations. At test time, all neurons are active but outputs scaled by (1-p).</li>
+        <li>Early stopping: keep the model checkpoint from the epoch with lowest validation loss. Simple but very effective.</li>
+        <li>Batch normalisation: normalises inputs of each layer to zero mean, unit variance per mini-batch. Reduces internal covariate shift, stabilises training, has regularising effect.</li>
+        <li>Data augmentation: for images — flip, rotate, crop, colour jitter. Creates effectively more training data from existing samples.</li>
       </ul>
     </div>
   </div>
@@ -539,28 +688,45 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Deep Learning Training</span><span class="tag">Lecture 8</span>
-      <h4>a) Vanishing and exploding gradients — causes, effects, and remedies</h4>
-      <p><strong>Vanishing gradient:</strong> during backpropagation, gradients shrink exponentially as they travel from output to early layers. With sigmoid, the derivative is always ≤ 0.25; multiplied through N layers, it approaches zero. Lower layers receive negligible gradient signal and stop learning. Described in detail by Glorot &amp; Bengio (2010).</p>
-      <p><strong>Exploding gradient:</strong> gradients grow exponentially, causing massive, unstable weight updates and NaN values. Mostly occurs in RNNs.</p>
-      <p><strong>Remedies:</strong></p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">What are vanishing and exploding gradients? How do they affect training, and what are the remedies?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Vanishing gradient:</strong> gradients shrink exponentially during backprop (sigmoid derivative ≤ 0.25 per layer) → lower layers receive ~0 gradient → stop learning. <strong>Exploding gradient:</strong> gradients grow exponentially → unstable updates, NaN values (common in RNNs). <strong>Remedies:</strong> use ReLU (gradient=1 for x&gt;0), proper weight initialisation (He/Xavier), Batch Normalisation, gradient clipping (for exploding), LSTM/GRU gates (for RNNs), residual/skip connections.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Use ReLU or Leaky ReLU</strong>: derivative = 1 for positive inputs → no saturation → gradient flows freely.</li>
-        <li><strong>Proper weight initialisation</strong>: Xavier/Glorot for sigmoid/tanh; He initialisation for ReLU.</li>
-        <li><strong>Batch Normalisation</strong>: keeps activations in the healthy (non-saturating) region of sigmoid/tanh.</li>
-        <li><strong>Gradient clipping</strong>: rescale gradients when their norm exceeds a threshold — prevents explosion without changing direction.</li>
-        <li><strong>LSTM/GRU</strong>: gating mechanisms create linear pathways for gradients through time in RNNs.</li>
-        <li><strong>Residual connections</strong>: skip connections provide a direct gradient highway bypassing layers.</li>
+        <li>Glorot &amp; Bengio (2010) first formally explained the vanishing gradient problem — showed that with sigmoid + uniform weight init, variance grows through layers until saturating.</li>
+        <li><strong>ReLU fix</strong>: derivative = 1 for x&gt;0 → no saturation on positive side → gradients flow freely through many layers.</li>
+        <li><strong>Batch Normalisation</strong>: normalises layer inputs so activation rarely enters the saturating tails of sigmoid/tanh.</li>
+        <li><strong>Gradient clipping</strong>: if gradient norm &gt; threshold, rescale to threshold. Does not change gradient direction, just magnitude.</li>
+        <li><strong>Residual connections</strong> (ResNet): output = F(x) + x. The identity skip path provides a direct gradient highway, enabling training of 100+ layer networks.</li>
       </ul>
-      <h4>b) Learning rate — why it matters and two scheduling strategies</h4>
-      <p>LR too high → diverges or oscillates. LR too low → slow convergence, may get stuck.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">Why is the learning rate a critical hyperparameter? Describe two learning rate scheduling strategies.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>LR too high → cost function diverges or oscillates. LR too low → extremely slow convergence, may get trapped. <strong>Step decay:</strong> reduce LR by a factor (e.g., ×0.1) every N epochs — simple, allows fast initial progress then fine tuning. <strong>Cosine annealing:</strong> LR follows a cosine curve from max to near zero — smooth, no abrupt drops; often combined with warm restarts to escape local minima.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Step decay</strong>: reduce LR by a factor (e.g., ×0.1) every N epochs. Simple and effective. Allows fast initial learning then fine-grained tuning.</li>
-        <li><strong>Cosine annealing</strong>: LR follows a cosine curve from max to near zero. Smooth decay without abrupt drops. Often combined with warm restarts to escape local minima.</li>
+        <li>A good strategy: start with a relatively large LR for fast convergence, then decay it as the model approaches a minimum to avoid overshooting.</li>
+        <li>Warm restarts: periodically reset LR to its maximum, allowing the model to explore the loss landscape and escape shallow local minima.</li>
+        <li>Cyclical LR: oscillates between min and max LR every few epochs. Can speed up convergence and improve generalisation.</li>
       </ul>
-      <h4>c) Adam vs RMSProp optimisers</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">Compare two faster optimisers (e.g., Adam and RMSProp). How do they improve over vanilla gradient descent?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>RMSProp:</strong> maintains exponential moving average of squared gradients v; adapts per-parameter LR: <code>θ = θ − (α/√v+ε)·g</code>. Prevents AdaGrad's monotonic LR decay. Good for RNNs. <strong>Adam:</strong> combines momentum (running mean of gradients m̂) + RMSProp (v̂): <code>θ = θ − α·m̂/√(v̂+ε)</code>. Bias-corrected. Generally fastest convergence, default choice for deep learning. Both adapt the LR per parameter, outperforming fixed-LR gradient descent.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>RMSProp</strong> (Hinton, 2012): maintains an exponential moving average of squared gradients per parameter. Scales each parameter's LR inversely with root of that average. Adapts to each parameter individually. Good for non-stationary objectives (e.g., RNNs). Avoids AdaGrad's monotonically shrinking LR.</li>
-        <li><strong>Adam</strong> (Kingma &amp; Ba, 2014): combines momentum (1st moment = running mean of gradients) + RMSProp (2nd moment = running mean of squared gradients). Bias-corrected estimates. Formula: <code>θ = θ − α · m̂/√(v̂+ε)</code>. Generally faster convergence than RMSProp. The default choice for most deep learning tasks. More robust but has more hyperparameters.</li>
+        <li><strong>Momentum</strong>: accumulates a velocity in direction of persistent gradient. Accelerates in consistent directions, dampens oscillations.</li>
+        <li><strong>Nesterov Accelerated Gradient</strong>: computes gradient at the "look-ahead" position → smoother convergence than vanilla momentum.</li>
+        <li><strong>AdaGrad</strong>: accumulates sum of squared gradients — LR shrinks monotonically. Good for sparse features but LR eventually → 0.</li>
+        <li><strong>RMSProp</strong>: uses exponential decay instead of sum in AdaGrad → avoids LR dying out. Recommended for RNNs (Hinton).</li>
+        <li><strong>Adam</strong>: default for most tasks. Typical hyperparameters: β₁=0.9, β₂=0.999, ε=1e-8, α=0.001.</li>
       </ul>
     </div>
   </div>
@@ -574,29 +740,45 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">CNNs</span><span class="tag">Lecture 9</span>
-      <h4>a) CNN architecture for image classification</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">Describe the architecture of a typical CNN used for image classification. What does each layer do?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Input (raw pixels) → <strong>Conv layer</strong> (learnable filters slide across image, detect local patterns; produce feature maps via weight sharing) → <strong>ReLU</strong> (sets negatives to zero, non-linearity) → <strong>Max Pooling</strong> (takes max in local window, reduces spatial size, translation invariance) → repeat Conv+ReLU+Pool → <strong>Fully Connected</strong> (flattened features → class scores) → <strong>Softmax</strong> (class probabilities summing to 1).</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Input layer</strong>: raw pixel values, e.g., 224×224×3 (H×W×channels).</li>
-        <li><strong>Convolutional layer</strong>: applies learnable filters (kernels) across the image via sliding window. Each filter produces a feature map detecting a specific pattern (edges, textures). Multiple filters → stack of feature maps. Uses weight sharing — same filter applied everywhere.</li>
-        <li><strong>Activation (ReLU)</strong>: applied element-wise after convolution. Sets negative values to zero. Introduces non-linearity. Produces a stack of images with no negative values.</li>
-        <li><strong>Pooling layer (Max Pooling)</strong>: reduces spatial dimensions by taking the maximum value in each local window (e.g., 2×2, stride 2). Provides translation invariance. Reduces computational load and parameter count.</li>
-        <li><strong>Stacked layers</strong>: Conv → ReLU → Pool blocks repeated multiple times. Early layers: low-level features (edges). Later layers: high-level features (shapes, objects).</li>
-        <li><strong>Fully connected layers</strong>: flattened feature maps → dense connections → combine features for classification.</li>
-        <li><strong>Output (Softmax)</strong>: converts logits to class probabilities summing to 1.</li>
+        <li><strong>Convolutional layer</strong>: filter (kernel) slides across image. At each position: element-wise multiply filter × image patch, sum → one value in feature map. Each filter detects one pattern type. Multiple filters → stack of feature maps.</li>
+        <li><strong>Weight sharing</strong>: same filter applied across all positions → far fewer parameters than fully-connected. A 3×3 filter has only 9 weights regardless of image size.</li>
+        <li><strong>ReLU</strong>: sets all negative values to 0. Cheap to compute. Prevents saturation unlike sigmoid.</li>
+        <li><strong>Max Pooling</strong>: 2×2 window, stride 2 → each output = maximum of 4 inputs. Halves spatial dimensions. Provides local translation invariance.</li>
+        <li>Stacking layers: early layers detect edges/corners; middle layers detect textures; deep layers detect shapes/objects (hierarchical features).</li>
       </ul>
-      <h4>b) Why CNNs outperform standard fully-connected NNs for images</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What makes CNNs particularly well-suited for image processing compared to standard fully-connected neural networks?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Local connectivity:</strong> each neuron connects to only a small local region (not all pixels) — exploits spatial locality. <strong>Weight sharing:</strong> the same filter applies everywhere → drastically fewer parameters (e.g., 1M-pixel FC = billions of params; CNN = tractable). <strong>Translation invariance:</strong> a feature is detected regardless of where in the image it appears (via pooling). FC networks do not exploit spatial structure and would overfit on image data.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Local connectivity</strong>: each neuron connects to only a small local region (receptive field), exploiting spatial locality of features.</li>
-        <li><strong>Weight sharing</strong>: the same filter is applied across all positions → massively fewer parameters. A 1M-pixel image with 1000 classes in a FC net would require billions of parameters; CNNs are tractable.</li>
-        <li><strong>Translation invariance</strong>: after pooling, a feature is detected regardless of its location in the image. CNNs recognise X's and O's even when translated, scaled, or slightly rotated.</li>
-        <li><strong>Hierarchical feature learning</strong>: stacking layers learns progressively abstract representations automatically from raw pixels.</li>
+        <li>An FC network on a 256×256 RGB image with 1000 hidden units = 256×256×3×1000 ≈ 200M parameters in the first layer alone. Intractable.</li>
+        <li>CNN with 32 filters of 3×3 on same image = 32×3×3×3 = 864 parameters in first layer.</li>
+        <li>Translation invariance: if a cat's ear is detected in the top-left, the same filter detects it in the bottom-right. After max-pooling, the exact position doesn't matter.</li>
+        <li>Hierarchical feature learning: features learned at each layer build on the previous, automatically discovering useful representations without manual feature engineering.</li>
       </ul>
-      <h4>c) Transfer learning</h4>
-      <p>Pre-train a CNN on a large dataset (e.g., ImageNet: 1.2M images, 1000 classes). The network learns general visual features (edges → textures → shapes → objects). Transfer these learned weights to a new task with limited data.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">Explain transfer learning in the context of CNNs. What are its advantages?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Pre-train a CNN on a large dataset (e.g., ImageNet: 1.2M images, 1000 classes). The network learns general visual features (edges → textures → shapes). Transfer learned weights to a new task with limited data. <strong>Feature extraction:</strong> freeze conv layers, retrain only the classifier head (when tasks are similar). <strong>Fine-tuning:</strong> retrain all layers with small LR (when tasks differ). Advantages: requires far less data, trains much faster, typically achieves better accuracy than training from scratch.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Feature extraction</strong>: freeze all convolutional layers; replace and retrain only the final classifier head. Fast; works when new task is similar to pre-training task.</li>
-        <li><strong>Fine-tuning</strong>: unfreeze some or all layers and retrain with a small learning rate. Better when new domain differs significantly.</li>
-        <li><strong>Benefits</strong>: requires far less labelled data, converges much faster, typically achieves superior accuracy compared to training from scratch.</li>
+        <li>Why it works: early CNN layers learn universal features (edge detectors, colour blobs) that transfer across domains — a network trained on photos can detect features in medical images.</li>
+        <li>Feature extraction: fastest approach. Only the final few layers are replaced (e.g., 1000-class head → 5-class head). Good when training data is small.</li>
+        <li>Fine-tuning: unfreeze all layers and continue training with a very small LR (to avoid destroying pre-learned features). Better when new task differs significantly from ImageNet.</li>
+        <li>Models like VGG, ResNet, Inception are standard pre-trained backbones available in libraries like TorchVision and Keras Applications.</li>
       </ul>
     </div>
   </div>
@@ -610,24 +792,43 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">RNNs / LSTM</span><span class="tag">Lecture 10</span>
-      <h4>a) How RNNs maintain memory and their limitation</h4>
-      <p>An RNN maintains a <strong>hidden state</strong> h_t updated at each time step: <code>h_t = tanh(W_h · h_{t-1} + W_x · x_t)</code>. This hidden state carries information forward in time, acting as the model's "memory." The output at each step depends on both the current input and the previous hidden state.</p>
-      <p><strong>Problem with long-term dependencies:</strong> During backpropagation through time (BPTT), gradients are multiplied by the weight matrix at every time step. If weights &lt; 1, gradients shrink exponentially → early time steps receive almost zero gradient → the model cannot learn relationships between events separated by many steps (long-term dependencies).</p>
-      <h4>b) LSTM architecture — how it solves vanishing gradients</h4>
-      <p>LSTM introduces a separate <strong>cell state</strong> (C_t) that serves as a long-term memory highway alongside the hidden state.</p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">How does an RNN maintain memory across time steps? What problem does it have with long-term dependencies?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>An RNN maintains a <strong>hidden state</strong> hₜ updated each step: <code>hₜ = tanh(W_h·hₜ₋₁ + W_x·xₜ)</code>. This acts as "memory" — carrying past information forward. Problem: during Backpropagation Through Time (BPTT), gradients are multiplied by the weight matrix at every step. If weights &lt;1, gradients shrink <strong>exponentially</strong> → early time steps get ~0 gradient → the model <strong>cannot learn long-range dependencies</strong>.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Forget gate</strong> (f_t = σ(W_f · [h_{t-1}, x_t])): decides what to erase from cell state. Near 0 = forget, near 1 = keep.</li>
-        <li><strong>Input gate</strong> (i_t = σ(W_i · [h_{t-1}, x_t])): decides what new information to write. Combined with candidate: C̃_t = tanh(W_c · [h_{t-1}, x_t]).</li>
-        <li><strong>Cell state update</strong>: <code>C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t</code> — update via addition, not multiplication.</li>
-        <li><strong>Output gate</strong> (o_t = σ(W_o · [h_{t-1}, x_t])): <code>h_t = o_t ⊙ tanh(C_t)</code>.</li>
+        <li>Example: in "The cat that ate the fish was full" — connecting "cat" to "was" across many words requires gradients to flow back several steps without vanishing.</li>
+        <li>RNNs also suffer from exploding gradients in some cases (less common) — addressed with gradient clipping.</li>
+        <li>RNNs are inherently sequential → cannot parallelise across time steps → slow for long sequences.</li>
       </ul>
-      <p><strong>Why it solves vanishing gradients:</strong> The cell state propagates through time via <em>addition</em> rather than multiplication, creating a linear "gradient highway." Gradients can flow back unchanged through many time steps, allowing the model to retain relevant information over long sequences.</p>
-      <p><strong>GRU</strong> (Gated Recurrent Unit): simpler variant that merges forget and input gates into a single <em>update gate</em> and merges cell state and hidden state. Fewer parameters, often similar performance to LSTM.</p>
-      <h4>c) Two approaches to address vanishing gradients in RNNs</h4>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">Describe the LSTM architecture. How does it solve the vanishing gradient problem?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>LSTM adds a <strong>cell state</strong> (Cₜ) as a long-term memory highway. Three gates control it: <strong>Forget gate</strong> (fₜ): what to erase from Cₜ₋₁. <strong>Input gate</strong> (iₜ): what new info to add. <strong>Output gate</strong> (oₜ): what to output. Cell update: <code>Cₜ = fₜ⊙Cₜ₋₁ + iₜ⊙C̃ₜ</code> — via <strong>addition</strong>, not multiplication → gradient flows unchanged → no vanishing. GRU is simpler: merges forget+input into one update gate.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>LSTM/GRU</strong>: gating mechanisms create additive gradient pathways. The cell state highway allows gradients to flow backward without exponential decay.</li>
-        <li><strong>Attention mechanisms</strong>: allow the model to directly attend to any position in the input sequence at each decoding step, completely bypassing the sequential gradient bottleneck. Forms the basis of the Transformer architecture.</li>
-        <li><strong>Gradient clipping</strong>: cap gradient norm to prevent exploding gradients (standard practice in RNN training, though it doesn't fix vanishing).</li>
+        <li>Forget gate: fₜ = σ(Wf·[hₜ₋₁, xₜ]). Near 0 = forget past info; near 1 = keep it.</li>
+        <li>Input gate: iₜ = σ(Wi·[hₜ₋₁, xₜ]); candidate: C̃ₜ = tanh(Wc·[hₜ₋₁, xₜ]).</li>
+        <li>Output gate: hₜ = oₜ ⊙ tanh(Cₜ) — filtered cell state becomes new hidden state.</li>
+        <li>The cell state uses element-wise multiplication by gates (near 1 = identity path) rather than weight matrix multiplication → gradient highway through time.</li>
+        <li><strong>GRU</strong>: update gate z merges forget+input; reset gate r controls how much past state to use. No separate cell state. Fewer parameters; often comparable performance to LSTM.</li>
+      </ul>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">What is the vanishing gradient problem in RNNs, and what are two approaches to address it?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>During BPTT, gradients are multiplied by the weight matrix W at every time step. If the spectral radius of W &lt;1, gradients decay exponentially → model can't learn long-range patterns. <strong>Solution 1 — LSTM/GRU:</strong> gating creates an additive gradient path through cell state, bypassing multiplicative decay. <strong>Solution 2 — Attention mechanisms:</strong> allows the model to directly attend to any input position, completely removing the sequential gradient bottleneck (basis of Transformers).</p>
+      </div>
+      <div class="detail-label">Detail</div>
+      <ul>
+        <li>Gradient clipping addresses the exploding gradient (complementary issue) but does not fix vanishing.</li>
+        <li>LSTM/GRU: the cell state passes through time with only sigmoid/tanh element-wise operations (not full weight matrix multiplication) → gradients don't compound.</li>
+        <li>Attention: instead of squeezing all information into a fixed hidden state, attention scores allow the decoder to look directly at any encoder hidden state. Eliminates the need for gradients to travel through sequential time steps at all.</li>
       </ul>
     </div>
   </div>
@@ -641,44 +842,47 @@
     </div>
     <div class="qa-body">
       <span class="tag gold">Generative AI</span><span class="tag">Lecture 11</span>
-      <h4>a) What is Generative AI? High-level architecture of LLMs</h4>
-      <p><strong>Generative AI</strong>: a branch of AI that creates new, original content (text, images, audio, video) by learning the distribution of training data. Unlike discriminative models that classify, generative models aim to <em>produce</em> new samples consistent with that distribution.</p>
-      <p><strong>High-level LLM pipeline:</strong></p>
+
+      <div class="sub-q"><span class="sub-q-letter">a)</span><span class="sub-q-text">What is Generative AI? Explain the high-level architecture of Large Language Models (LLMs) such as ChatGPT.</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Generative AI creates new content (text, images, audio) by learning data distributions — unlike discriminative models that just classify. LLM pipeline: <strong>Tokenise</strong> input → <strong>embed</strong> tokens (dense vectors) → add <strong>positional encoding</strong> (sine/cosine for word order) → stack of <strong>Transformer decoder layers</strong> (masked self-attention + FFN + residual + LayerNorm) → output <strong>probability distribution</strong> over vocabulary → <strong>autoregressive generation</strong> (one token at a time). Pre-trained on massive text corpora; fine-tuned for tasks.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li><strong>Tokenisation</strong>: input text → tokens (sub-word units). Example: "I Love to code in python" → ["I","Love","to","code","in","python"].</li>
-        <li><strong>Embedding</strong>: tokens → dense vector representations (Word2Vec, GloVe, or learnt embeddings).</li>
-        <li><strong>Positional encoding</strong>: sine/cosine functions added to embeddings to inject word-order information (since Transformer processes in parallel, not sequentially).</li>
-        <li><strong>Transformer decoder layers</strong> (stacked; GPT-3 has 96): masked multi-head self-attention → feed-forward network → residual connections + layer normalisation.</li>
-        <li><strong>Output projection</strong>: hidden states → probability distribution over vocabulary. Autoregressive generation: sample one token at a time, append to input, repeat until end token.</li>
-        <li><strong>Pre-training</strong> on massive text corpus (hundreds of billions of tokens) + <strong>fine-tuning</strong> for specific tasks.</li>
+        <li>Tokenisation: text split into sub-word tokens. Example: "I Love to code in python" → ["I","Love","to","code","in","python"].</li>
+        <li>Positional encoding: Transformer processes tokens in parallel (not sequentially), so positional information must be injected via sine/cosine encoding added to embeddings.</li>
+        <li>GPT-3: 96 decoder layers, 175B parameters. GPT-4: multimodal (text + image). GPT-1 (2018): 12 layers, 117M params.</li>
+        <li>Autoregressive generation: at each step, model outputs a probability over the full vocabulary. The most likely (or sampled) token is appended to the input; process repeats until end-of-sequence token.</li>
       </ul>
-      <h4>b) Role of encoder and decoder in the Transformer</h4>
-      <p><strong>Encoder</strong> (Vaswani et al., "Attention Is All You Need", 2017):</p>
+
+      <div class="sub-q"><span class="sub-q-letter">b)</span><span class="sub-q-text">What is the role of the encoder and decoder in the original Transformer architecture? (Vaswani et al., 2017)</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p><strong>Encoder:</strong> processes full input sequence <em>bidirectionally</em> (each token attends to all others). 6 identical layers: multi-head self-attention + position-wise FFN + residual + LayerNorm. Outputs contextualised representations. Used in BERT for understanding tasks. <strong>Decoder:</strong> generates output <em>autoregressively</em>. 6 layers with 3 sub-layers: (1) <em>masked</em> self-attention (can't see future tokens), (2) <em>cross-attention</em> to encoder output, (3) FFN. Scaled Dot-Product Attention: <code>softmax(QKᵀ/√d_k)·V</code>.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li>Processes the full input sequence <em>bidirectionally</em> (each token attends to all others simultaneously).</li>
-        <li>6 identical layers, each containing: <em>multi-head self-attention</em> + <em>position-wise feed-forward network</em> + residual connection + layer normalisation. Output dimension: d_model = 512.</li>
-        <li>Produces contextualised hidden representations for each input token.</li>
-        <li>Used in models like BERT for understanding tasks (classification, QA).</li>
+        <li>Encoder self-attention: Q, K, V all come from the same sequence. Each token attends to all others — bidirectional context.</li>
+        <li>Decoder masked self-attention: positions can only attend to earlier positions. "Masking" = filling future positions with −∞ before softmax → probability = 0 for future tokens. Ensures causality (autoregression).</li>
+        <li>Cross-attention (decoder's 2nd sub-layer): Q from decoder, K and V from encoder output. Allows decoder to "look at" the full input when generating each output token.</li>
+        <li>Multi-head attention: runs h=8 parallel attention functions with different learned projections. Each head captures different types of dependencies. Outputs concatenated then projected.</li>
+        <li>d_model = 512. FFN inner dimension = 2048. Positional encoding: PE(pos,2i) = sin(pos/10000^(2i/d_model)).</li>
       </ul>
-      <p><strong>Decoder</strong>:</p>
+
+      <div class="sub-q"><span class="sub-q-letter">c)</span><span class="sub-q-text">How does ChatGPT's architecture differ from the original Transformer? What is RLHF and why is it used?</span></div>
+      <div class="short-ans">
+        <div class="short-ans-label">Answer</div>
+        <p>Original Transformer: encoder + decoder (for seq-to-seq tasks). <strong>ChatGPT (GPT):</strong> decoder-only — no encoder, no cross-attention, only masked self-attention → strictly unidirectional (left-to-right). Generates one token at a time. <strong>RLHF</strong> (Reinforcement Learning from Human Feedback): (1) supervised fine-tuning on expert conversations, (2) train reward model from human preference rankings, (3) RL with PPO to maximise reward. Used because raw LLMs predict tokens but may generate harmful or unhelpful content — RLHF aligns behaviour to human values.</p>
+      </div>
+      <div class="detail-label">Detail</div>
       <ul>
-        <li>Generates output <em>autoregressively</em>, one token at a time.</li>
-        <li>6 layers, each with 3 sub-layers: (1) <em>masked</em> self-attention (cannot attend to future positions — ensures causality); (2) <em>cross-attention</em> over encoder output (aligns decoder to input context); (3) position-wise FFN.</li>
-        <li>The masking implements "autoregression" — the decoder only sees what it has already generated.</li>
-      </ul>
-      <p><strong>Attention mechanism</strong>: maps Query (Q), Key (K), Value (V) vectors. Scaled Dot-Product Attention: <code>Attention(Q,K,V) = softmax(QKᵀ / √d_k) · V</code>. Multi-head attention runs h attention functions in parallel to capture different types of dependencies.</p>
-      <h4>c) ChatGPT vs original Transformer — and RLHF</h4>
-      <ul>
-        <li><strong>Original Transformer</strong>: encoder + decoder. Used for seq-to-seq tasks (e.g., machine translation). Decoder uses cross-attention to attend to encoder output.</li>
-        <li><strong>ChatGPT (GPT series)</strong>: <em>decoder-only</em>. No encoder; no cross-attention. Uses only masked self-attention → strictly unidirectional (left to right). Each token attends only to previous tokens. Generates text one token at a time using the conversation history as context. GPT-3: 96 Transformer decoder layers, 175B parameters.</li>
-        <li><strong>RLHF (Reinforcement Learning from Human Feedback)</strong>: trains the model to be helpful, harmless, and honest:
-          <ol style="padding-left:1.2rem;margin-top:.4rem;">
-            <li><strong>Supervised fine-tuning</strong>: human AI trainers write example conversations; model is fine-tuned on these.</li>
-            <li><strong>Reward model</strong>: trainers rank different model responses by quality; a reward model is trained to predict human preference scores.</li>
-            <li><strong>RL with PPO</strong>: the language model (policy) is trained using Proximal Policy Optimisation to maximise the reward model's scores.</li>
-          </ol>
-        </li>
-        <li><strong>Why RLHF?</strong> A raw language model predicts the next likely token but may generate harmful, biased, or unhelpful content. RLHF aligns the model's behaviour to match human values and conversational goals.</li>
+        <li>GPT = decoder-only: token at position t attends only to tokens 1..t-1. No encoder means no cross-attention layer in the stack.</li>
+        <li>GPT-3: 96 Transformer decoder layers, 175B parameters. This scale enables impressive few-shot learning.</li>
+        <li><strong>RLHF Step 1 — Supervised Fine-Tuning (SFT):</strong> human trainers write example (prompt, good response) pairs. Model fine-tuned to produce similar responses.</li>
+        <li><strong>RLHF Step 2 — Reward Model:</strong> model generates several responses; trainers rank them. A separate reward model learns to predict which response humans prefer.</li>
+        <li><strong>RLHF Step 3 — PPO:</strong> treat language model as policy; reward model provides scalar feedback. PPO updates the policy to maximise reward while staying close to the SFT model (KL penalty).</li>
+        <li>Why RLHF: instruction-following, harmless responses, factual accuracy — these cannot be captured by next-token prediction alone.</li>
       </ul>
     </div>
   </div>
@@ -1125,6 +1329,10 @@ let fcOrder = flashcards.map((_, i) => i);
 let fcIdx = 0;
 let fcVisited = new Set();
 
+function fcUnflip() {
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
 function fcRender() {
   const card = flashcards[fcOrder[fcIdx]];
   document.getElementById('fc-q').textContent = card.q;
@@ -1132,8 +1340,6 @@ function fcRender() {
   document.getElementById('fc-counter').textContent = (fcIdx+1) + ' / ' + fcOrder.length;
   document.getElementById('fc-prev').disabled = fcIdx === 0;
   document.getElementById('fc-next').disabled = fcIdx === fcOrder.length - 1;
-  // unflip
-  document.getElementById('flashcard').classList.remove('flipped');
   // update dots
   const prog = document.getElementById('fc-progress');
   prog.innerHTML = '';
@@ -1148,18 +1354,23 @@ function fcRender() {
 function fcFlip() {
   fcVisited.add(fcIdx);
   document.getElementById('flashcard').classList.toggle('flipped');
-  fcRender();
+  // update dots only (no full re-render — that would unflip the card)
+  document.querySelectorAll('#fc-progress .fc-dot').forEach((d, i) => {
+    d.className = 'fc-dot' + (i === fcIdx ? ' current' : '') + (fcVisited.has(i) && i !== fcIdx ? ' visited' : '');
+  });
 }
 
 function fcNav(dir) {
   fcVisited.add(fcIdx);
   fcIdx = Math.max(0, Math.min(fcOrder.length - 1, fcIdx + dir));
+  fcUnflip();
   fcRender();
 }
 
 function fcJump(i) {
   fcVisited.add(fcIdx);
   fcIdx = i;
+  fcUnflip();
   fcRender();
 }
 
@@ -1170,6 +1381,7 @@ function fcShuffle() {
   }
   fcIdx = 0;
   fcVisited.clear();
+  fcUnflip();
   fcRender();
 }
 
@@ -1177,7 +1389,7 @@ function fcReset() {
   fcOrder = flashcards.map((_, i) => i);
   fcIdx = 0;
   fcVisited.clear();
-  document.getElementById('flashcard').classList.remove('flipped');
+  fcUnflip();
   fcRender();
 }
 
